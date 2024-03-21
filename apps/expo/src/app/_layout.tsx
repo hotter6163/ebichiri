@@ -1,10 +1,9 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { HeaderBackButton, HeaderTitle } from "@/components/header";
+import { TRPCProvider } from "@/utils/api";
+import { supabase } from "@/utils/supabase";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
-
-import { HeaderBackButton, HeaderTitle } from "../components/header";
-import { TRPCProvider } from "../utils/api";
-import { supabase } from "../utils/supabase";
 
 import "../styles.css";
 

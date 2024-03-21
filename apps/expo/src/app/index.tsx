@@ -1,3 +1,4 @@
+import type { RouterOutputs } from "@/utils/api";
 import React from "react";
 import {
   Alert,
@@ -13,11 +14,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { Link, Stack } from "expo-router";
+import { AuthAvatar } from "@/components/header";
+import { api } from "@/utils/api";
 import { FlashList } from "@shopify/flash-list";
-
-import type { RouterOutputs } from "../utils/api";
-import { AuthAvatar } from "../components/header";
-import { api } from "../utils/api";
 
 function PostCard(props: { post: RouterOutputs["post"]["all"][number] }) {
   const { post } = props;

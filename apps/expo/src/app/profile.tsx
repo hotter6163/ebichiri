@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Alert, Pressable, Text, TextInput, View } from "react-native";
 import * as AppleAuthentication from "expo-apple-authentication";
+import { initiateAppleSignIn } from "@/utils/auth";
 import { AntDesign } from "@expo/vector-icons";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
-
-import { initiateAppleSignIn } from "../utils/auth";
 
 export default function Profile() {
   const user = useUser();
