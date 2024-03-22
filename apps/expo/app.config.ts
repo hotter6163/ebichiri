@@ -50,6 +50,7 @@ const defineConfig = (): ExpoConfig => ({
   plugins: [
     "./expo-plugins/with-modify-gradle.js",
     "expo-apple-authentication",
+    "expo-secure-store",
   ],
 });
 
