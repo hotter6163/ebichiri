@@ -1,6 +1,6 @@
+import type { FC } from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { HeaderBackButton, HeaderTitle } from "@/components/header";
 import { TRPCProvider } from "@/utils/api";
 import { supabase } from "@/utils/supabase";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
@@ -8,43 +8,26 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import "../styles.css";
 
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StackHeader } from "@/components/header";
+import { BASE_COLOR } from "@/constants/colors";
 import { cssInterop } from "nativewind";
 
 cssInterop(SafeAreaView, { className: "style" });
 
-// This is the main layout of the app
-// It wraps your pages with the providers they need
-export default function RootLayout() {
-  return (
-    <SessionContextProvider supabaseClient={supabase}>
-      <TRPCProvider>
-        {/*
-         * The Stack component displays the current page.
-         * It also allows you to configure your screens
-         */}
-        <Stack
-          screenOptions={{
-            headerLeft: HeaderBackButton,
-            headerTitle: HeaderTitle,
-            headerStyle: {
-              backgroundColor: "#18181A",
-            },
+const RootLayout: FC = () => (
+  <SessionContextProvider supabaseClient={supabase}>
+    <TRPCProvider>
+      <Stack screenOptions={{ headerStyle: { backgroundColor: BASE_COLOR } }}>
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerLeft: StackHeader,
           }}
-        >
-          {/*
-           * Present the profile screen as a modal
-           * @see https://expo.github.io/router/docs/guides/modals
-           */}
-          <Stack.Screen
-            name="profile"
-            options={{
-              presentation: "modal",
-              headerTitle: () => <></>,
-            }}
-          />
-        </Stack>
-        <StatusBar />
-      </TRPCProvider>
-    </SessionContextProvider>
-  );
-}
+        />
+      </Stack>
+      <StatusBar style="light" />
+    </TRPCProvider>
+  </SessionContextProvider>
+);
+
+export default RootLayout;

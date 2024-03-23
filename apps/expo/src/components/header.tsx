@@ -1,17 +1,14 @@
-import type { FC, ReactNode } from "react";
-import { Text, TouchableOpacity } from "react-native";
-import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import type { FC } from "react";
+import { Text, View } from "react-native";
+import { PRIMARY_COLOR } from "@/constants/colors";
 
-export const HeaderBackButton = () => {
-  const router = useRouter();
-  return (
-    <TouchableOpacity onPress={() => router.back()}>
-      <Ionicons name="arrow-back" size={32} color="#E4E4E7" />
-    </TouchableOpacity>
-  );
-};
-
-export const HeaderTitle: FC<{ children: ReactNode }> = (props) => (
-  <Text className="text-3xl font-semibold text-zinc-200">{props.children}</Text>
+export const StackHeader: FC = () => (
+  <View>
+    <Text
+      className="text-4xl font-extrabold tracking-wider"
+      style={{ color: PRIMARY_COLOR }}
+    >
+      EBICHIRI
+    </Text>
+  </View>
 );
