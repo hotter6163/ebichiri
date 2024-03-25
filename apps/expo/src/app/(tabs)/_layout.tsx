@@ -27,6 +27,16 @@ const TabLayout: FC = () => (
         ),
       }}
     />
+    <Tabs.Screen
+      name="camera"
+      options={{
+        title: "Camera",
+        tabBarIcon: ({ color }) => (
+          <FontAwesome size={28} name="camera" color={color} />
+        ),
+        headerShown: false,
+      }}
+    />
   </Tabs>
 );
 
