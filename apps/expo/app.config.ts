@@ -51,6 +51,14 @@ const defineConfig = (): ExpoConfig => ({
     "./expo-plugins/with-modify-gradle.js",
     "expo-apple-authentication",
     "expo-secure-store",
+    [
+      "expo-camera",
+      {
+        cameraPermission: "Allow ebichiri to access your camera",
+        microphonePermission: "Allow ebichiri to access your microphone",
+        recordAudioAndroid: true,
+      },
+    ],
   ],
 });
 
