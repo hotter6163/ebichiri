@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import React from "react";
 import { Tabs } from "expo-router";
-import { PRIMARY_COLOR, SUB_BASE_COLOR } from "@/constants/colors";
+import { StackHeader } from "@/components/header";
+import { BASE_COLOR, PRIMARY_COLOR, SUB_BASE_COLOR } from "@/constants/colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const TAB_BAR_INACTIVE_COLOR = "white";
@@ -9,9 +10,11 @@ const TAB_BAR_INACTIVE_COLOR = "white";
 const TabLayout: FC = () => (
   <Tabs
     screenOptions={{
+      headerStyle: { backgroundColor: BASE_COLOR },
+      headerLeft: StackHeader,
+      headerTitle: () => null,
       tabBarActiveTintColor: PRIMARY_COLOR,
       tabBarInactiveTintColor: TAB_BAR_INACTIVE_COLOR,
-      headerShown: false,
       tabBarStyle: { backgroundColor: SUB_BASE_COLOR },
     }}
   >

@@ -3,7 +3,7 @@ import { Text } from "react-native";
 import { PageView } from "@/components/layout";
 
 const Home: FC = () => (
-  <PageView style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
+  <PageView>
     <Text className="text-white">Tab Home</Text>
   </PageView>
 );
