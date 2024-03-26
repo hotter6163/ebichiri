@@ -38,11 +38,7 @@ export const LocationProvider: FC<Props> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (subscriber)
-      return () => {
-        console.log("remove subscriber");
-        subscriber.remove();
-      };
+    if (subscriber) return () => subscriber.remove();
   }, [subscriber]);
 
   return (
