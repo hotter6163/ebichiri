@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Camera, PermissionStatus } from "expo-camera";
+import { Camera } from "expo-camera";
+import { PermissionStatus } from "expo-modules-core";
 
 export const useCameraPermission = () => {
   const [permission, requestPermission] = Camera.useCameraPermissions();
