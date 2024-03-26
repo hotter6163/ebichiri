@@ -66,6 +66,14 @@ const defineConfig = (): ExpoConfig => ({
           "Allow ebichiri to use your location.",
       },
     ],
+    [
+      "expo-media-library",
+      {
+        photosPermission: "Allow ebichiri to access your photos.",
+        savePhotosPermission: "Allow ebichiri to save photos.",
+        isAccessMediaLocationEnabled: true,
+      },
+    ],
   ],
 });
 

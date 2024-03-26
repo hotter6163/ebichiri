@@ -4,6 +4,7 @@ import type { NativeSafeAreaViewProps } from "react-native-safe-area-context";
 import { useEffect, useRef, useState } from "react";
 import { Button, Image, Linking, Pressable, Text, View } from "react-native";
 import { Camera, CameraType, PermissionStatus } from "expo-camera";
+import { saveToLibraryAsync, usePermissions } from "expo-media-library";
 import { usePathname } from "expo-router";
 import { PageView } from "@/components/layout";
 import { PRIMARY_COLOR } from "@/constants/colors";
@@ -113,8 +114,11 @@ const CapturedView: FC<{ data: CaptureData; clear: () => void }> = ({
   data: { uri, location },
   clear,
 }) => {
-  const onSave = () => {
-    console.log({ uri, location });
+  const [permission] = usePermissions();
+
+  const onSave = async () => {
+    if (permission?.status === PermissionStatus.GRANTED)
+      await saveToLibraryAsync(uri);
     clear();
   };
 

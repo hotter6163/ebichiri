@@ -12,12 +12,14 @@ import {
   LocationProvider,
   useLocationPermission,
 } from "@/libs/native/location";
+import { useMediaLibraryPermission } from "@/libs/native/media-library";
 import { cssInterop } from "nativewind";
 
 cssInterop(SafeAreaView, { className: "style" });
 
 const RootLayout: FC = () => {
   useLocationPermission();
+  useMediaLibraryPermission();
 
   return (
     <SessionContextProvider supabaseClient={supabase}>
