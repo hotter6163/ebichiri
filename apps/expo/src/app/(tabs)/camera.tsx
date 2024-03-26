@@ -75,7 +75,6 @@ const CameraView: FC<{
     if (!cameraRef.current) return;
 
     const { uri } = await cameraRef.current.takePictureAsync();
-    console.log({ uri, location });
     onCapture({ uri, location });
   };
 
