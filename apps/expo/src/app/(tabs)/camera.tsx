@@ -1,3 +1,4 @@
+import type { LocationObject } from "expo-location";
 import type { FC } from "react";
 import type { NativeSafeAreaViewProps } from "react-native-safe-area-context";
 import { useEffect, useRef, useState } from "react";
@@ -6,22 +7,26 @@ import { Camera, CameraType, PermissionStatus } from "expo-camera";
 import { usePathname } from "expo-router";
 import { PageView } from "@/components/layout";
 import { PRIMARY_COLOR } from "@/constants/colors";
-import { useCameraPermission } from "@/hooks/permission";
+import { useCameraPermission } from "@/libs/native/camera";
+import { useLocation } from "@/libs/native/location";
 import Slider from "@react-native-community/slider";
 
 const SAFE_AREA: NativeSafeAreaViewProps["edges"] = ["top", "right", "left"];
 
+interface CaptureData {
+  uri: string;
+  location: LocationObject | null;
+}
+
 const CameraPage: FC = () => {
   const pathname = usePathname();
   const [permission] = Camera.useCameraPermissions();
-  const [capturedUri, setCapturedUri] = useState<string | null>(null);
+  const [captureData, setCaptureData] = useState<CaptureData | null>(null);
 
   useCameraPermission();
 
   useEffect(() => {
-    setCapturedUri(
-      "file:///var/mobile/Containers/Data/Application/C7FABAF7-F1B2-49C4-B2D0-922F9AB9D71E/Library/Caches/ExponentExperienceData/@anonymous/expo-c6ed387e-41fa-4c3d-9ce0-ad86f5482e73/Camera/075B2EDB-D9A7-4142-988A-9BEAC165DB58.jpg",
-    );
+    setCaptureData(null);
   }, [pathname]);
 
   if (!permission) {
@@ -35,10 +40,10 @@ const CameraPage: FC = () => {
   return (
     <PageView safeArea={SAFE_AREA}>
       {pathname === "/camera" &&
-        (capturedUri ? (
-          <CapturedView uri={capturedUri} clear={() => setCapturedUri(null)} />
+        (captureData ? (
+          <CapturedView data={captureData} clear={() => setCaptureData(null)} />
         ) : (
-          <CameraView onCapture={setCapturedUri} />
+          <CameraView onCapture={setCaptureData} />
         ))}
     </PageView>
   );
@@ -58,18 +63,19 @@ const DeniedView: FC = () => (
 
 const CONTROLLER_HEIGHT = 160;
 
-const CameraView: FC<{ onCapture: (url: string) => void }> = ({
-  onCapture,
-}) => {
+const CameraView: FC<{
+  onCapture: (data: CaptureData) => void;
+}> = ({ onCapture }) => {
   const cameraRef = useRef<Camera>(null);
   const [zoom, setZoom] = useState(0);
+  const { location } = useLocation();
 
   const capture = async () => {
     if (!cameraRef.current) return;
 
     const { uri } = await cameraRef.current.takePictureAsync();
-    console.log(uri);
-    onCapture(uri);
+    console.log({ uri, location });
+    onCapture({ uri, location });
   };
 
   return (
@@ -103,11 +109,12 @@ const CameraView: FC<{ onCapture: (url: string) => void }> = ({
   );
 };
 
-const CapturedView: FC<{ uri: string; clear: () => void }> = ({
-  uri,
+const CapturedView: FC<{ data: CaptureData; clear: () => void }> = ({
+  data: { uri, location },
   clear,
 }) => {
   const onSave = () => {
+    console.log({ uri, location });
     clear();
   };
 

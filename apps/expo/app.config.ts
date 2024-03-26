@@ -59,6 +59,13 @@ const defineConfig = (): ExpoConfig => ({
         recordAudioAndroid: true,
       },
     ],
+    [
+      "expo-location",
+      {
+        locationAlwaysAndWhenInUsePermission:
+          "Allow ebichiri to use your location.",
+      },
+    ],
   ],
 });
 
