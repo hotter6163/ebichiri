@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
 
-import type { RouterOutputs } from "@acme/api";
+import type { RouterOutputs } from "@ebichiri/api";
 
 import { api } from "~/trpc/react";
 

@@ -1,9 +1,9 @@
-import type { NextRequest } from "next/server";
-import { cookies } from "next/headers";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
+import { cookies } from "next/headers";
+import type { NextRequest } from "next/server";
 
-import { appRouter, createTRPCContext } from "@acme/api";
+import { appRouter, createTRPCContext } from "@ebichiri/api";
 
 export const runtime = "edge";
 
