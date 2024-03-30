@@ -10,9 +10,9 @@ if (
 }
 
 const defineConfig = (): ExpoConfig => ({
-  name: "expo",
-  slug: "expo",
-  scheme: "expo",
+  name: "えびちり",
+  slug: "ebichiri",
+  scheme: "ebichiri",
   version: "2.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
@@ -27,7 +27,7 @@ const defineConfig = (): ExpoConfig => ({
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    bundleIdentifier: "your.bundle.identifier",
+    bundleIdentifier: "app.ebichiri",
     supportsTablet: true,
     usesAppleSignIn: true,
   },
@@ -42,11 +42,11 @@ const defineConfig = (): ExpoConfig => ({
     tsconfigPaths: true,
     typedRoutes: true,
   },
-  // extra: {
-  //   eas: {
-  //     projectId: "your-project-id",
-  //   },
-  // },
+  extra: {
+    eas: {
+      projectId: "a9f4c075-d48c-40d6-9dfd-c5e254db0ed4",
+    },
+  },
   plugins: [
     "./expo-plugins/with-modify-gradle.js",
     "expo-apple-authentication",
