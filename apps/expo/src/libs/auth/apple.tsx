@@ -17,7 +17,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 export const AppleSignInButton: FC = () => {
   const supabase = useSupabaseClient();
   const router = useRouter();
-  const { mutateAsync } = api.profile.upsert.useMutation();
+  const { mutateAsync } = api.user.upsert.useMutation();
 
   const signInWithApple = async () => {
     const { token, nonce, name } = await initiateAppleSignIn();
