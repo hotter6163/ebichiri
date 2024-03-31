@@ -10,7 +10,7 @@ const TAB_BAR_INACTIVE_COLOR = "white";
 const TabLayout: FC = () => (
   <Tabs
     screenOptions={{
-      header: Header,
+      header: () => <Header />,
       tabBarActiveTintColor: PRIMARY_COLOR,
       tabBarInactiveTintColor: TAB_BAR_INACTIVE_COLOR,
       tabBarStyle: { backgroundColor: SUB_BASE_COLOR },
