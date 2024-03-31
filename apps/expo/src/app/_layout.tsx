@@ -8,6 +8,8 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import "../styles.css";
 
 import { SafeAreaView } from "react-native-safe-area-context";
+import { BackButton } from "@/components/header";
+import { BASE_COLOR } from "@/constants/colors";
 import {
   LocationProvider,
   useLocationPermission,
@@ -25,8 +27,16 @@ const RootLayout: FC = () => {
     <SessionContextProvider supabaseClient={supabase}>
       <TRPCProvider>
         <LocationProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
+          <Stack
+            initialRouteName="(tabs)"
+            screenOptions={{
+              headerLeft: BackButton,
+              headerStyle: { backgroundColor: BASE_COLOR },
+              headerTitle: () => null,
+            }}
+          >
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="signin" />
           </Stack>
           <StatusBar style="light" />
         </LocationProvider>
