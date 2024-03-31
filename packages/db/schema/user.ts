@@ -1,5 +1,7 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+
+import { photo } from "./photo";
 
 export const user = pgTable("users", {
   id: uuid("id").primaryKey(),
@@ -9,3 +11,7 @@ export const user = pgTable("users", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
+
+export const userRelations = relations(user, ({ many }) => ({
+  photos: many(photo),
+}));
