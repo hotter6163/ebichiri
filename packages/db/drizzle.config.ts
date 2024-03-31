@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
 export default {
-  schema: "./schema.ts",
+  schema: "./schema/index.ts",
   driver: "pg",
   dbCredentials: { connectionString: process.env.POSTGRES_URL! },
 } satisfies Config;
