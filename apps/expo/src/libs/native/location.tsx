@@ -25,8 +25,11 @@ export const LocationProvider: FC<Props> = ({ children }) => {
   const [subscriber, setSubscriber] = useState<LocationSubscription | null>(
     null,
   );
+  const [permission] = useForegroundPermissions();
 
   useEffect(() => {
+    if (permission?.status !== PermissionStatus.GRANTED) return;
+
     void watchPositionAsync(
       {
         accuracy: Accuracy.High,
@@ -35,7 +38,7 @@ export const LocationProvider: FC<Props> = ({ children }) => {
       },
       setLocation,
     ).then(setSubscriber);
-  }, []);
+  }, [permission]);
 
   useEffect(() => {
     if (subscriber) return () => subscriber.remove();
