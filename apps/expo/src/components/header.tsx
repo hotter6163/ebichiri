@@ -1,31 +1,61 @@
 import type { FC } from "react";
 import { Pressable, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Link, useRouter } from "expo-router";
-import { PRIMARY_COLOR } from "@/constants/colors";
-import { AntDesign } from "@expo/vector-icons";
+import { BASE_COLOR, PRIMARY_COLOR } from "@/constants/colors";
+import { AntDesign, Entypo, Feather } from "@expo/vector-icons";
 import { useUser } from "@supabase/auth-helpers-react";
 
-export const HeaderLogo: FC = () => (
-  <View className="pl-4">
-    <Text
-      className="text-4xl font-extrabold tracking-wider"
-      style={{ color: PRIMARY_COLOR }}
+export const Header: FC = () => {
+  const { top } = useSafeAreaInsets();
+
+  return (
+    <View
+      style={{
+        paddingTop: top + 8,
+        paddingHorizontal: 16,
+        paddingBottom: 8,
+        backgroundColor: BASE_COLOR,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+      className="border-b border-zinc-200"
     >
-      EBICHIRI
-    </Text>
-  </View>
+      <HeaderLogo />
+      <HeaderRight />
+    </View>
+  );
+};
+
+const HeaderLogo: FC = () => (
+  <Text
+    className="text-4xl font-extrabold tracking-wider"
+    style={{ color: PRIMARY_COLOR }}
+  >
+    EBICHIRI
+  </Text>
 );
 
-export const SignInLink: FC = () => {
+const HeaderRight: FC = () => {
   const user = useUser();
 
-  return !user ? (
-    <View className="pr-4">
-      <Link href="/signin" style={{ color: "white" }} className="text-white">
-        Log In
-      </Link>
-    </View>
-  ) : null;
+  const href = user ? "/settings" : "/signin";
+  const icon = user ? (
+    <Feather name="settings" size={24} color="white" />
+  ) : (
+    <Entypo name="login" size={24} color="white" />
+  );
+
+  return (
+    <Link
+      href={href}
+      style={{ color: "white", padding: 8 }}
+      className="text-white"
+    >
+      {icon}
+    </Link>
+  );
 };
 
 export const BackButton: FC = () => {
