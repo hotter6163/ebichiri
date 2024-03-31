@@ -27,7 +27,7 @@ const defineConfig = (): ExpoConfig => ({
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    bundleIdentifier: "app.ebichiri",
+    bundleIdentifier: "com.hotter6163.ebichiri.app",
     supportsTablet: true,
     usesAppleSignIn: true,
   },
