@@ -1,7 +1,9 @@
+import { photoRouter } from "./router/photo";
 import { userRouter } from "./router/user";
 import { createTRPCRouter } from "./trpc";
 
 export const appRouter = createTRPCRouter({
+  photo: photoRouter,
   user: userRouter,
 });
 

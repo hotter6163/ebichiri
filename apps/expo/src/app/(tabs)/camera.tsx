@@ -2,7 +2,15 @@ import type { LocationObject } from "expo-location";
 import type { FC } from "react";
 import type { NativeSafeAreaViewProps } from "react-native-safe-area-context";
 import { useEffect, useRef, useState } from "react";
-import { Button, Image, Linking, Pressable, Text, View } from "react-native";
+import {
+  Alert,
+  Button,
+  Image,
+  Linking,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 import { Camera, CameraType, PermissionStatus } from "expo-camera";
 import { saveToLibraryAsync, usePermissions } from "expo-media-library";
 import { usePathname } from "expo-router";
@@ -10,12 +18,14 @@ import { PageView } from "@/components/layout";
 import { PRIMARY_COLOR } from "@/constants/colors";
 import { useCameraPermission } from "@/libs/native/camera";
 import { useLocation } from "@/libs/native/location";
+import { api } from "@/utils/api";
 import Slider from "@react-native-community/slider";
 
 const SAFE_AREA: NativeSafeAreaViewProps["edges"] = ["top", "right", "left"];
 
 interface CaptureData {
   uri: string;
+  base64: string | null;
   location: LocationObject | null;
 }
 
@@ -74,8 +84,10 @@ const CameraView: FC<{
   const capture = async () => {
     if (!cameraRef.current) return;
 
-    const { uri } = await cameraRef.current.takePictureAsync();
-    onCapture({ uri, location });
+    const { uri, base64 } = await cameraRef.current.takePictureAsync({
+      base64: true,
+    });
+    onCapture({ uri, base64: base64 ?? null, location });
   };
 
   return (
@@ -110,14 +122,22 @@ const CameraView: FC<{
 };
 
 const CapturedView: FC<{ data: CaptureData; clear: () => void }> = ({
-  data: { uri, location },
+  data: { uri, base64, location },
   clear,
 }) => {
   const [permission] = usePermissions();
+  const { mutateAsync } = api.photo.create.useMutation();
 
   const onSave = async () => {
     if (permission?.status === PermissionStatus.GRANTED)
       await saveToLibraryAsync(uri);
+
+    if (base64)
+      await mutateAsync({
+        base64: base64 ?? null,
+        location: location?.coords ?? null,
+      });
+    else Alert.alert("画像の保存に失敗しました");
     clear();
   };
 

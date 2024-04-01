@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -18,13 +19,50 @@ export const createTRPCContext = async (opts: {
     : await supabase.auth.getUser();
 
   const source = opts.headers.get("x-trpc-source") ?? "unknown";
-  console.log(">>> tRPC Request from", source, "by", user?.data.user?.email);
+  console.log(">>> tRPC Request from", source, "by", user?.data.user?.id);
 
   return {
     user: user.data.user,
     db,
+    storage: new Storage(),
   };
 };
+
+class Storage {
+  private readonly supabase: SupabaseClient;
+  private readonly bucket = "public-bucket";
+
+  constructor() {
+    this.supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.PRIVATE_SUPABASE_SECRET_KEY!,
+    );
+  }
+
+  async uploadImage(path: string, data: File | Blob) {
+    const file = data instanceof File ? data : new File([data], "image.jpg");
+    try {
+      const fileExtension = file.name.split(".").pop();
+      const filePath = `${path}/${Date.now()}.${fileExtension}`;
+      const { error, data } = await this.supabase.storage
+        .from(this.bucket)
+        .upload(filePath, file);
+      if (error) throw error;
+
+      const {
+        data: { publicUrl },
+      } = this.supabase.storage.from(this.bucket).getPublicUrl(data.path);
+
+      return {
+        uri: publicUrl,
+        message: "画像が正常にアップロードされました。",
+      };
+    } catch (error) {
+      console.error("画像のアップロード中にエラーが発生しました。", error);
+      return { uri: null, message: "画像のアップロードに失敗しました。" };
+    }
+  }
+}
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
