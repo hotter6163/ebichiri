@@ -19,7 +19,7 @@ export const photo = pgTable("photos", {
     .default(sql`gen_random_uuid()`),
   src: varchar("src").notNull(),
   location: json("location").$type<Location>(),
-  authorId: uuid("author_id").references(() => user.id, {
+  userId: uuid("user_id").references(() => user.id, {
     onDelete: "set null",
   }),
   createdAt: timestamp("created_at")
@@ -28,5 +28,5 @@ export const photo = pgTable("photos", {
 });
 
 export const photoRelations = relations(photo, ({ one }) => ({
-  author: one(user, { fields: [photo.authorId], references: [user.id] }),
+  author: one(user, { fields: [photo.userId], references: [user.id] }),
 }));
