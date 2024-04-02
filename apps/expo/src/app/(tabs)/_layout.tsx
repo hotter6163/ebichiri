@@ -3,6 +3,7 @@ import React from "react";
 import { Tabs } from "expo-router";
 import { Header } from "@/components/header";
 import { PRIMARY_COLOR, SUB_BASE_COLOR } from "@/constants/colors";
+import { Entypo } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const TAB_BAR_INACTIVE_COLOR = "white";
@@ -21,7 +22,7 @@ const TabLayout: FC = () => (
       options={{
         title: "Home",
         tabBarIcon: ({ color }) => (
-          <FontAwesome size={28} name="home" color={color} />
+          <FontAwesome size={24} name="home" color={color} />
         ),
       }}
     />
@@ -30,7 +31,17 @@ const TabLayout: FC = () => (
       options={{
         title: "Camera",
         tabBarIcon: ({ color }) => (
-          <FontAwesome size={28} name="camera" color={color} />
+          <FontAwesome size={24} name="camera" color={color} />
+        ),
+        headerShown: false,
+      }}
+    />
+    <Tabs.Screen
+      name="photo"
+      options={{
+        title: "Photo",
+        tabBarIcon: ({ color }) => (
+          <Entypo name="images" size={24} color={color} />
         ),
         headerShown: false,
       }}

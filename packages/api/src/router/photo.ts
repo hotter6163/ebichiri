@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
+import { and, desc, eq, lt } from "@ebichiri/db";
 import { photo } from "@ebichiri/db/schema";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -33,6 +34,38 @@ export const photoRouter = createTRPCRouter({
         location: input.location,
         userId: ctx.user.id,
       });
+    }),
+  getMineWithPagination: protectedProcedure
+    .input(
+      z.object({
+        cursor: z.string().nullable().optional(),
+        limit: z.number().nullable().optional(),
+      }),
+    )
+    .query(async ({ ctx, input: { cursor, limit: inputLimit } }) => {
+      const where = cursor
+        ? and(
+            lt(photo.createdAt, new Date(cursor)),
+            eq(photo.userId, ctx.user.id),
+          )
+        : eq(photo.userId, ctx.user.id);
+      const limit = inputLimit ?? 3;
+
+      const photos = await ctx.db
+        .select()
+        .from(photo)
+        .where(where)
+        .limit(limit + 1)
+        .orderBy(desc(photo.createdAt));
+
+      const items = photos.slice(0, limit);
+      return {
+        items,
+        pagination: {
+          cursor: items[items.length - 1]?.createdAt.toISOString() ?? null,
+          hasNext: photos.length > limit,
+        },
+      };
     }),
 });
 

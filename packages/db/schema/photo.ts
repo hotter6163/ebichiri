@@ -22,8 +22,8 @@ export const photo = pgTable("photos", {
   userId: uuid("user_id").references(() => user.id, {
     onDelete: "set null",
   }),
-  createdAt: timestamp("created_at")
-    .default(sql`CURRENT_TIMESTAMP`)
+  createdAt: timestamp("created_at", { precision: 3, withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
     .notNull(),
 });
 
