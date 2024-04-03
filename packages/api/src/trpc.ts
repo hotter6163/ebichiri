@@ -7,19 +7,23 @@ import { ZodError } from "zod";
 import { db } from "@ebichiri/db";
 
 export const createTRPCContext = async (opts: {
-  headers: Headers;
+  request: Request;
   supabase: SupabaseClient;
 }) => {
   const supabase = opts.supabase;
 
-  const token = opts.headers.get("authorization");
-
+  const token = opts.request.headers.get("authorization");
   const user = token
     ? await supabase.auth.getUser(token)
     : await supabase.auth.getUser();
 
-  const source = opts.headers.get("x-trpc-source") ?? "unknown";
-  console.log(">>> tRPC Request from", source, "by", user?.data.user?.id);
+  const path = new URL(opts.request.url).pathname.replace("/api/trpc/", "");
+  const source = opts.request.headers.get("x-trpc-source") ?? "unknown";
+  console.info(">>> tRPC Request", {
+    path,
+    source,
+    user: user?.data.user?.id,
+  });
 
   return {
     user: user.data.user,
