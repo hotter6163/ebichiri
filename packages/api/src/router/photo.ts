@@ -67,6 +67,15 @@ export const photoRouter = createTRPCRouter({
         },
       };
     }),
+  getOne: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ ctx, input }) =>
+      ctx.db
+        .select()
+        .from(photo)
+        .where(eq(photo.id, input.id))
+        .then((rows) => rows[0] ?? null),
+    ),
 });
 
 const base64toBlob = (base64: string) => {
