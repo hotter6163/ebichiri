@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { PageView } from "@/components/layout";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
-const Settings: FC = () => {
+const SettingsPage: FC = () => {
   const supabase = useSupabaseClient();
   const router = useRouter();
 
@@ -28,4 +28,4 @@ const Settings: FC = () => {
   );
 };
 
-export default Settings;
+export default SettingsPage;

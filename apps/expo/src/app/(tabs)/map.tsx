@@ -13,7 +13,7 @@ const DEFAULT_REGION = {
   longitude: 139.70238937731,
 };
 
-const Map: FC = () => {
+const MapPage: FC = () => {
   const { location } = useLocation();
   const [permission] = useForegroundPermissions();
 
@@ -41,4 +41,4 @@ const Map: FC = () => {
   );
 };
 
-export default Map;
+export default MapPage;

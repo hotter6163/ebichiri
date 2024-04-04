@@ -7,7 +7,7 @@ import { api } from "@/utils/api";
 
 const SAFE_AREA: NativeSafeAreaViewProps["edges"] = ["top", "right", "left"];
 
-const Photo: FC = () => {
+const PhotoPage: FC = () => {
   const router = useRouter();
   const { data } = api.photo.getMineWithPagination.useInfiniteQuery(
     {
@@ -45,4 +45,4 @@ const Photo: FC = () => {
   );
 };
 
-export default Photo;
+export default PhotoPage;
