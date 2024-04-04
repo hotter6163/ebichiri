@@ -71,6 +71,8 @@ export const photoRouter = createTRPCRouter({
 
       return ctx.db.insert(photo).values({
         src: uri,
+        longitude: input.location?.longitude,
+        latitude: input.location?.latitude,
         location: input.location,
         userId: ctx.user.id,
       });
