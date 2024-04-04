@@ -30,6 +30,9 @@ const defineConfig = (): ExpoConfig => ({
     bundleIdentifier: "com.ebichiri",
     supportsTablet: true,
     usesAppleSignIn: true,
+    config: {
+      googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+    },
   },
   android: {
     package: "your.bundle.identifier",
