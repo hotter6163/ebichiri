@@ -4,6 +4,7 @@ import { Dimensions } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { useForegroundPermissions } from "expo-location";
 import { PermissionStatus } from "expo-modules-core";
+import { useRouter } from "expo-router";
 import { PageView } from "@/components/layout";
 import { useLocation } from "@/libs/native/location";
 import { api } from "@/utils/api";
@@ -18,6 +19,7 @@ const DEFAULT_REGION = {
 const MapPage: FC = () => {
   const { location } = useLocation();
   const [permission] = useForegroundPermissions();
+  const router = useRouter();
 
   const latitudeDelta =
     (Dimensions.get("window").height / Dimensions.get("window").width) *
@@ -51,6 +53,12 @@ const MapPage: FC = () => {
               latitude: photo.latitude,
               longitude: photo.longitude,
             }}
+            onPress={() =>
+              router.push({
+                pathname: "/(photos)/[photoId]/",
+                params: { photoId: photo.id },
+              })
+            }
           />
         ))}
       </MapView>
