@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { and, desc, eq, lt } from "@ebichiri/db";
-import { photo } from "@ebichiri/db/schema";
+import { photo, user } from "@ebichiri/db/schema";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -73,8 +73,16 @@ export const photoRouter = createTRPCRouter({
       ctx.db
         .select()
         .from(photo)
+        .leftJoin(user, eq(photo.userId, user.id))
         .where(eq(photo.id, input.id))
-        .then((rows) => rows[0] ?? null),
+        .then((rows) =>
+          rows[0]?.users
+            ? (rows[0] as {
+                photos: typeof photo.$inferSelect;
+                users: typeof user.$inferSelect;
+              })
+            : null,
+        ),
     ),
 });
 
