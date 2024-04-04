@@ -1,5 +1,5 @@
 {
-  "name": "@ebichiri/api",
+  "name": "@ebichiri/types",
   "version": "0.1.0",
   "private": true,
   "main": "./index.ts",
@@ -12,13 +12,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ebichiri/db": "workspace:^0.1.0",
-    "@ebichiri/types": "workspace:^0.1.0",
-    "@supabase/supabase-js": "^2.39.0",
-    "@trpc/client": "next",
-    "@trpc/server": "next",
-    "nanoid": "^5.0.4",
-    "superjson": "2.2.1",
     "zod": "^3.22.2"
   },
   "devDependencies": {

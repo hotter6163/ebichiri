@@ -283,6 +283,9 @@ importers:
       '@ebichiri/db':
         specifier: workspace:^0.1.0
         version: link:../db
+      '@ebichiri/types':
+        specifier: workspace:^0.1.0
+        version: link:../types
       '@supabase/supabase-js':
         specifier: ^2.39.0
         version: 2.39.0
@@ -323,6 +326,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@ebichiri/types':
+        specifier: workspace:^0.1.0
+        version: link:../types
       '@vercel/postgres':
         specifier: ^0.5.1
         version: 0.5.1
@@ -345,6 +351,31 @@ importers:
       drizzle-kit:
         specifier: beta
         version: 0.20.7-02055e2
+      eslint:
+        specifier: ^8.53.0
+        version: 8.55.0
+      prettier:
+        specifier: ^3.1.0
+        version: 3.1.1
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
+  packages/types:
+    dependencies:
+      zod:
+        specifier: ^3.22.2
+        version: 3.22.4
+    devDependencies:
+      '@ebichiri/eslint-config':
+        specifier: workspace:^0.2.0
+        version: link:../../tooling/eslint
+      '@ebichiri/prettier-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/prettier
+      '@ebichiri/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.53.0
         version: 8.55.0
@@ -9927,6 +9958,7 @@ packages:
   /prettier@2.8.8:
     resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: false
 
   /prettier@3.1.1:

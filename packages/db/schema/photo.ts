@@ -1,17 +1,9 @@
 import { relations, sql } from "drizzle-orm";
 import { json, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
-import { user } from "./user";
+import type { Location } from "@ebichiri/types";
 
-interface Location {
-  latitude: number;
-  longitude: number;
-  altitude: number | null;
-  accuracy: number | null;
-  altitudeAccuracy: number | null;
-  heading: number | null;
-  speed: number | null;
-}
+import { user } from "./user";
 
 export const photo = pgTable("photos", {
   id: uuid("id")
