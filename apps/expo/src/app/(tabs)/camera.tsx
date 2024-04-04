@@ -127,17 +127,21 @@ const CapturedView: FC<{ data: CaptureData; clear: () => void }> = ({
 }) => {
   const [permission] = usePermissions();
   const { mutateAsync } = api.photo.create.useMutation();
+  const { photo } = api.useUtils();
 
   const onSave = async () => {
     if (permission?.status === PermissionStatus.GRANTED)
       await saveToLibraryAsync(uri);
 
-    if (base64)
+    if (base64) {
       await mutateAsync({
         base64: base64 ?? null,
         location: location?.coords ?? null,
       });
-    else Alert.alert("画像の保存に失敗しました");
+      await photo.getMineWithPagination.reset();
+    } else {
+      Alert.alert("画像の保存に失敗しました");
+    }
     clear();
   };
 
