@@ -47,7 +47,7 @@ const defineConfig = (): ExpoConfig => ({
   },
   extra: {
     eas: {
-      projectId: "a9f4c075-d48c-40d6-9dfd-c5e254db0ed4",
+      projectId: process.env.EXPO_PROJECT_ID,
     },
   },
   plugins: [
