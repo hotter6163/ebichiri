@@ -36,10 +36,7 @@ const Photo: FC = () => {
             style={{ width: photoSize, height: photoSize }}
             className="p-[1px]"
           >
-            <Image
-              source={{ uri: item.src }}
-              className="h-full w-full object-cover"
-            />
+            <Image source={{ uri: item.src }} className="h-full w-full" />
           </Pressable>
         )}
         numColumns={3}
