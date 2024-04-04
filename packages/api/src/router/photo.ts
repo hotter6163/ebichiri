@@ -1,9 +1,10 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { and, desc, eq, lt } from "@ebichiri/db";
+import type { NonNullableObject, Region } from "@ebichiri/types";
+import { and, desc, eq, gt, lt } from "@ebichiri/db";
 import { photo, user } from "@ebichiri/db/schema";
-import { LocationSchema } from "@ebichiri/types";
+import { LocationSchema, RegionSchema } from "@ebichiri/types";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -57,6 +58,33 @@ export const photoRouter = createTRPCRouter({
             : null,
         ),
     ),
+  getManyInRegion: protectedProcedure
+    .input(
+      z.object({
+        region: RegionSchema,
+      }),
+    )
+    .query(async ({ ctx, input: { region } }) => {
+      const bounds = calculateRegionBounds(region);
+      const photos = await ctx.db
+        .select()
+        .from(photo)
+        .where(
+          and(
+            eq(photo.userId, ctx.user.id),
+            and(
+              gt(photo.longitude, bounds.x.min),
+              lt(photo.longitude, bounds.x.max),
+              gt(photo.latitude, bounds.y.min),
+              lt(photo.latitude, bounds.y.max),
+            ),
+          ),
+        );
+      return photos as NonNullableObject<
+        typeof photo.$inferSelect,
+        "longitude" | "latitude"
+      >[];
+    }),
   create: protectedProcedure
     .input(
       z.object({
@@ -86,3 +114,14 @@ const base64toBlob = (base64: string) => {
     type: "image/jpeg",
   });
 };
+
+const calculateRegionBounds = (region: Region) => ({
+  x: {
+    min: region.longitude - region.longitudeDelta / 2,
+    max: region.longitude + region.longitudeDelta / 2,
+  },
+  y: {
+    min: region.latitude - region.latitudeDelta / 2,
+    max: region.latitude + region.latitudeDelta / 2,
+  },
+});

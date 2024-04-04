@@ -1,10 +1,12 @@
 import type { FC } from "react";
+import { useState } from "react";
 import { Dimensions } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { useForegroundPermissions } from "expo-location";
 import { PermissionStatus } from "expo-modules-core";
 import { PageView } from "@/components/layout";
 import { useLocation } from "@/libs/native/location";
+import { api } from "@/utils/api";
 
 const LONGITUDE_DELTA = 0.0421;
 
@@ -22,6 +24,16 @@ const MapPage: FC = () => {
     LONGITUDE_DELTA *
     0.3;
 
+  const initialRegion = {
+    latitude: location?.coords.latitude ?? DEFAULT_REGION.latitude,
+    longitude: location?.coords.longitude ?? DEFAULT_REGION.longitude,
+    latitudeDelta,
+    longitudeDelta: LONGITUDE_DELTA,
+  };
+
+  const [region, setRegion] = useState<Region>(initialRegion);
+  const { data } = api.photo.getManyInRegion.useQuery({ region });
+
   return (
     <PageView>
       <MapView
@@ -29,14 +41,19 @@ const MapPage: FC = () => {
         style={{ width: "100%", height: "100%" }}
         showsUserLocation={permission?.status === PermissionStatus.GRANTED}
         showsMyLocationButton={permission?.status === PermissionStatus.GRANTED}
-        initialRegion={{
-          latitude: location?.coords.latitude ?? DEFAULT_REGION.latitude,
-          longitude: location?.coords.longitude ?? DEFAULT_REGION.longitude,
-          latitudeDelta,
-          longitudeDelta: LONGITUDE_DELTA,
-        }}
-        onRegionChangeComplete={console.log}
-      ></MapView>
+        initialRegion={initialRegion}
+        onRegionChangeComplete={setRegion}
+      >
+        {data?.map((photo) => (
+          <Marker
+            key={photo.id}
+            coordinate={{
+              latitude: photo.latitude,
+              longitude: photo.longitude,
+            }}
+          />
+        ))}
+      </MapView>
     </PageView>
   );
 };
