@@ -56,6 +56,9 @@ importers:
       '@trpc/server':
         specifier: next
         version: 11.0.0-alpha-next-2023-11-24-13-58-38.113
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.10
       expo:
         specifier: ^50.0.14
         version: 50.0.14(@babel/core@7.23.6)(@react-native/babel-preset@0.73.21)

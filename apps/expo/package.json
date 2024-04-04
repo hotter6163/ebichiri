@@ -25,6 +25,7 @@
     "@trpc/client": "next",
     "@trpc/react-query": "next",
     "@trpc/server": "next",
+    "dayjs": "^1.11.10",
     "expo": "^50.0.14",
     "expo-apple-authentication": "~6.3.0",
     "expo-camera": "~14.1.1",
