@@ -1,5 +1,12 @@
 import { relations, sql } from "drizzle-orm";
-import { json, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  doublePrecision,
+  json,
+  pgTable,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 import type { Location } from "@ebichiri/types";
 
@@ -10,6 +17,8 @@ export const photo = pgTable("photos", {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   src: varchar("src").notNull(),
+  longitude: doublePrecision("longitude"),
+  latitude: doublePrecision("latitude"),
   location: json("location").$type<Location>(),
   userId: uuid("user_id").references(() => user.id, {
     onDelete: "set null",
