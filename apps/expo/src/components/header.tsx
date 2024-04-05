@@ -1,10 +1,9 @@
 import type { FC } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { BASE_COLOR, PRIMARY_COLOR } from "@/constants/colors";
-import { AntDesign, Entypo, Feather } from "@expo/vector-icons";
-import { useUser } from "@supabase/auth-helpers-react";
+import { AntDesign } from "@expo/vector-icons";
 
 export const Header: FC = () => {
   const { top } = useSafeAreaInsets();
@@ -23,7 +22,6 @@ export const Header: FC = () => {
       className="border-b border-zinc-200"
     >
       <HeaderLogo />
-      <HeaderRight />
     </View>
   );
 };
@@ -36,27 +34,6 @@ const HeaderLogo: FC = () => (
     EBICHIRI
   </Text>
 );
-
-const HeaderRight: FC = () => {
-  const user = useUser();
-
-  const href = user ? "/settings" : "/signin";
-  const icon = user ? (
-    <Feather name="settings" size={24} color="white" />
-  ) : (
-    <Entypo name="login" size={24} color="white" />
-  );
-
-  return (
-    <Link
-      href={href}
-      style={{ color: "white", padding: 8 }}
-      className="text-white"
-    >
-      {icon}
-    </Link>
-  );
-};
 
 export const BackButton: FC = () => {
   const router = useRouter();
