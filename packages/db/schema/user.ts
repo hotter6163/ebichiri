@@ -5,9 +5,18 @@ import { photo } from "./photo";
 
 export const user = pgTable("users", {
   id: uuid("id").primaryKey(),
-  name: varchar("name", { length: 256 }).notNull(),
+  slug: varchar("slug", { length: 256 })
+    .unique()
+    .notNull()
+    .default(sql`encode(gen_random_bytes(6), 'base64')::text`),
+  name: varchar("name", { length: 256 })
+    .notNull()
+    .default(sql`''`),
   image: varchar("image"),
   createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updated_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
