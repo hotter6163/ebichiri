@@ -283,9 +283,9 @@ importers:
       '@ebichiri/db':
         specifier: workspace:^0.1.0
         version: link:../db
-      '@ebichiri/types':
+      '@ebichiri/schema':
         specifier: workspace:^0.1.0
-        version: link:../types
+        version: link:../schema
       '@supabase/supabase-js':
         specifier: ^2.42.0
         version: 2.42.0
@@ -326,9 +326,9 @@ importers:
 
   packages/db:
     dependencies:
-      '@ebichiri/types':
+      '@ebichiri/schema':
         specifier: workspace:^0.1.0
-        version: link:../types
+        version: link:../schema
       '@vercel/postgres':
         specifier: ^0.5.1
         version: 0.5.1
@@ -361,7 +361,7 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
-  packages/types:
+  packages/schema:
     dependencies:
       zod:
         specifier: ^3.22.2

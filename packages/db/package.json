@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ebichiri/types": "workspace:^0.1.0",
+    "@ebichiri/schema": "workspace:^0.1.0",
     "@vercel/postgres": "^0.5.1",
     "drizzle-orm": "^0.29.1"
   },

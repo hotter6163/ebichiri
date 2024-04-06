@@ -1,10 +1,10 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import type { NonNullableObject, Region } from "@ebichiri/types";
+import type { NonNullableObject, Region } from "@ebichiri/schema";
 import { and, desc, eq, gt, lt } from "@ebichiri/db";
 import { photo, user } from "@ebichiri/db/schema";
-import { LocationSchema, RegionSchema } from "@ebichiri/types";
+import { LocationSchema, RegionSchema } from "@ebichiri/schema";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 

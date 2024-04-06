@@ -8,7 +8,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import type { Location } from "@ebichiri/types";
+import type { Location } from "@ebichiri/schema";
 
 import { user } from "./user";
 

@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@ebichiri/db": "workspace:^0.1.0",
-    "@ebichiri/types": "workspace:^0.1.0",
+    "@ebichiri/schema": "workspace:^0.1.0",
     "@supabase/supabase-js": "^2.42.0",
     "@trpc/client": "next",
     "@trpc/server": "next",
