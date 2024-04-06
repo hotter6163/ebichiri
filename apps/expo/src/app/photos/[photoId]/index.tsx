@@ -12,7 +12,7 @@ interface SearchParams extends Record<string, string> {
 
 const LONGITUDE_DELTA = 0.0421;
 
-const Photo: FC = () => {
+const PhotoDetailPage: FC = () => {
   const { photoId } = useLocalSearchParams<SearchParams>();
   const { data } = api.photo.getOne.useQuery({ id: photoId });
 
@@ -62,4 +62,4 @@ const Photo: FC = () => {
   );
 };
 
-export default Photo;
+export default PhotoDetailPage;
