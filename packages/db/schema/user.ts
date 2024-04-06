@@ -12,7 +12,7 @@ export const user = pgTable("users", {
   name: varchar("name", { length: 256 })
     .notNull()
     .default(sql`''`),
-  image: varchar("image"),
+  avatar: varchar("image"),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
