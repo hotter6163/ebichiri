@@ -29,7 +29,7 @@ const PhotoPage: FC = () => {
           <Pressable
             onPress={() =>
               router.push({
-                pathname: "/(photos)/[photoId]/",
+                pathname: "/photos/[photoId]/",
                 params: { photoId: item.id },
               })
             }

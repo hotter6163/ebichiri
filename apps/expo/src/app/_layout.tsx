@@ -37,7 +37,7 @@ const RootLayout: FC = () => {
             }}
           >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="(photos)/[photoId]/index" />
+            <Stack.Screen name="photos/[photoId]/index" />
           </Stack>
           <StatusBar style="light" />
           <AnonymousSignIn />

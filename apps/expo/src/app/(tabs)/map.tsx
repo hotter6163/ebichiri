@@ -55,7 +55,7 @@ const MapPage: FC = () => {
             }}
             onPress={() =>
               router.push({
-                pathname: "/(photos)/[photoId]/",
+                pathname: "/photos/[photoId]/",
                 params: { photoId: photo.id },
               })
             }
