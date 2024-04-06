@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Image, Pressable, Text, View } from "react-native";
+import { Avatar } from "@/components/avatar";
 import { PageView } from "@/components/layout";
 import { PhotoList } from "@/components/photo";
 import { PRIMARY_COLOR } from "@/constants/colors";
@@ -22,16 +23,7 @@ const ProfilePage: FC = () => {
     <PageView safeArea={["top", "left", "right"]} style={{ gap: 16 }}>
       <View className="w-full gap-2 px-12 pt-4">
         <View className="w-full flex-row items-center justify-between gap-2">
-          <View
-            className="items-center justify-center overflow-hidden rounded-full bg-white"
-            style={{ width: 80, height: 80 }}
-          >
-            {user?.avatar ? (
-              <Image source={{ uri: user.avatar }} className="h-full w-full" />
-            ) : (
-              <Feather name="user" size={72} color={PRIMARY_COLOR} />
-            )}
-          </View>
+          <Avatar src={user?.avatar ?? undefined} />
           <View className="flex-1"></View>
         </View>
         <View className="w-full">
