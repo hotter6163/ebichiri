@@ -32,6 +32,8 @@ export const createTRPCContext = async (opts: {
   };
 };
 
+export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>;
+
 class Storage {
   private readonly supabase: SupabaseClient;
   private readonly bucket = "public-bucket";

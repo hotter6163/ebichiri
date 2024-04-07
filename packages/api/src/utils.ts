@@ -1,13 +1,13 @@
 import { TRPCError } from "@trpc/server";
 
-import type { createTRPCContext } from "./trpc";
+import type { TRPCContext } from "./trpc";
 
 export const uploadImage = async ({
   ctx,
   path,
   base64,
 }: {
-  ctx: Awaited<ReturnType<typeof createTRPCContext>>;
+  ctx: TRPCContext;
   path: string;
   base64: string;
 }) => {
