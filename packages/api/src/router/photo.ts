@@ -1,4 +1,3 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import type { NonNullableObject, Region } from "@ebichiri/schema";
@@ -7,6 +6,7 @@ import { photo, user } from "@ebichiri/db/schema";
 import { LocationSchema, RegionSchema } from "@ebichiri/schema";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { uploadImage } from "../utils";
 
 export const photoRouter = createTRPCRouter({
   getMineWithPagination: protectedProcedure
@@ -93,9 +93,11 @@ export const photoRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const blob = base64toBlob(input.base64);
-      const { uri } = await ctx.storage.uploadImage("photos", blob);
-      if (!uri) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      const { uri } = await uploadImage({
+        ctx,
+        path: "photos",
+        base64: input.base64,
+      });
 
       return ctx.db.insert(photo).values({
         src: uri,
@@ -106,14 +108,6 @@ export const photoRouter = createTRPCRouter({
       });
     }),
 });
-
-const base64toBlob = (base64: string) => {
-  const bin = atob(base64.replace(/^.*,/, ""));
-  const buffer = new Uint8Array(bin.length).map((_, i) => bin.charCodeAt(i));
-  return new Blob([buffer.buffer], {
-    type: "image/jpeg",
-  });
-};
 
 const calculateRegionBounds = (region: Region) => ({
   x: {
