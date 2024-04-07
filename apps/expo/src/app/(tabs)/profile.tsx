@@ -1,13 +1,13 @@
 import type { FC } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { useRouter } from "expo-router";
 import { Avatar } from "@/components/avatar";
 import { PageView } from "@/components/layout";
 import { PhotoList } from "@/components/photo";
-import { PRIMARY_COLOR } from "@/constants/colors";
 import { api } from "@/utils/api";
-import { Feather } from "@expo/vector-icons";
 
 const ProfilePage: FC = () => {
+  const router = useRouter();
   const { data: user } = api.user.getMine.useQuery();
   const { data, fetchNextPage } =
     api.photo.getMineWithPagination.useInfiniteQuery(
@@ -40,7 +40,10 @@ const ProfilePage: FC = () => {
         </View>
       </View>
       <View className="w-full items-center">
-        <Pressable className="items-center justify-center rounded-xl bg-white px-12 py-3">
+        <Pressable
+          className="items-center justify-center rounded-xl bg-white px-12 py-3"
+          onPress={() => router.push("/profile/edit")}
+        >
           <Text className="text-lg font-bold text-black">
             プロフィールを編集
           </Text>
