@@ -1,0 +1,32 @@
+{
+  "name": "@ebichiri/google",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "eslint .",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.42"
+  },
+  "devDependencies": {
+    "@ebichiri/eslint-config": "workspace:^0.2.0",
+    "@ebichiri/prettier-config": "workspace:^0.1.0",
+    "@ebichiri/tsconfig": "workspace:^0.1.0",
+    "eslint": "^8.53.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@ebichiri/eslint-config/base"
+    ]
+  },
+  "prettier": "@ebichiri/prettier-config"
+}
