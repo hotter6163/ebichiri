@@ -32,6 +32,9 @@ importers:
       '@expo/metro-config':
         specifier: ^0.17.6
         version: 0.17.6(@react-native/babel-preset@0.73.21)
+      '@hookform/resolvers':
+        specifier: ^3.3.4
+        version: 3.3.4(react-hook-form@7.51.2)
       '@react-native-community/slider':
         specifier: 4.4.2
         version: 4.4.2
@@ -80,6 +83,9 @@ importers:
       expo-image:
         specifier: ~1.10.6
         version: 1.10.6(expo@50.0.14)
+      expo-image-picker:
+        specifier: ~14.7.1
+        version: 14.7.1(expo@50.0.14)
       expo-linking:
         specifier: ~6.2.2
         version: 6.2.2(expo@50.0.14)
@@ -110,6 +116,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.51.2
+        version: 7.51.2(react@18.2.0)
       react-native:
         specifier: 0.73.6
         version: 0.73.6(@babel/core@7.23.6)(@babel/preset-env@7.23.6)(react@18.2.0)
@@ -153,6 +162,9 @@ importers:
       '@ebichiri/prettier-config':
         specifier: workspace:^0.1.0
         version: link:../../tooling/prettier
+      '@ebichiri/schema':
+        specifier: workspace:^0.1.0
+        version: link:../../packages/schema
       '@ebichiri/tailwind-config':
         specifier: workspace:^0.1.0
         version: link:../../tooling/tailwind
@@ -3038,6 +3050,14 @@ packages:
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
     dependencies:
       '@hapi/hoek': 9.3.0
+    dev: false
+
+  /@hookform/resolvers@3.3.4(react-hook-form@7.51.2):
+    resolution: {integrity: sha512-o5cgpGOuJYrd+iMKvkttOclgwRW86EsWJZZRC23prf0uU2i48Htq4PuT73AVb9ionFyZrwYEITuOFGF+BydEtQ==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.51.2(react@18.2.0)
     dev: false
 
   /@humanwhocodes/config-array@0.11.13:
@@ -6755,6 +6775,23 @@ packages:
       fontfaceobserver: 2.3.0
     dev: false
 
+  /expo-image-loader@4.6.0(expo@50.0.14):
+    resolution: {integrity: sha512-RHQTDak7/KyhWUxikn2yNzXL7i2cs16cMp6gEAgkHOjVhoCJQoOJ0Ljrt4cKQ3IowxgCuOrAgSUzGkqs7omj8Q==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 50.0.14(@babel/core@7.23.6)(@react-native/babel-preset@0.73.21)
+    dev: false
+
+  /expo-image-picker@14.7.1(expo@50.0.14):
+    resolution: {integrity: sha512-ILQVOJgI3aEzrDmCFGDPtpAepYkn8mot8G7vfQ51BfFdQbzL6N3Wm1fS/ofdWlAZJl/qT2DwaIh5xYmf3SyGZA==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 50.0.14(@babel/core@7.23.6)(@react-native/babel-preset@0.73.21)
+      expo-image-loader: 4.6.0(expo@50.0.14)
+    dev: false
+
   /expo-image@1.10.6(expo@50.0.14):
     resolution: {integrity: sha512-vcnAIym1eU8vQgV1re1E7rVQZStJimBa4aPDhjFfzMzbddAF7heJuagyewiUkTzbZUwYzPaZAie6VJPyWx9Ueg==}
     peerDependencies:
@@ -10153,6 +10190,15 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-fast-compare: 3.2.2
       shallowequal: 1.1.0
+    dev: false
+
+  /react-hook-form@7.51.2(react@18.2.0):
+    resolution: {integrity: sha512-y++lwaWjtzDt/XNnyGDQy6goHskFualmDlf+jzEZvjvz6KWDf7EboL7pUvRCzPTJd0EOPpdekYaQLEvvG6m6HA==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is@16.13.1:

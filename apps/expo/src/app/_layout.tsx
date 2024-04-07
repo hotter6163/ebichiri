@@ -32,12 +32,15 @@ const RootLayout: FC = () => {
             initialRouteName="(tabs)"
             screenOptions={{
               headerLeft: BackButton,
-              headerStyle: { backgroundColor: BASE_COLOR },
+              headerStyle: {
+                backgroundColor: BASE_COLOR,
+              },
               headerTitle: () => null,
             }}
           >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="photos/[photoId]/index" />
+            <Stack.Screen name="profile/edit" />
           </Stack>
           <StatusBar style="light" />
           <AnonymousSignIn />
