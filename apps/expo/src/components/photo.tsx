@@ -25,7 +25,7 @@ export const PhotoList: FC<PhotoListProps> = ({ data }) => {
         <Pressable
           onPress={() =>
             router.push({
-              pathname: "/photos/[photoId]/",
+              pathname: "/photos/[photoId]",
               params: { photoId: item.id },
             })
           }
