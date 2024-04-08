@@ -1,8 +1,10 @@
+import type { ProfileEditData } from "@ebichiri/schema";
 import { eq } from "@ebichiri/db";
 import { user as userDbSchema } from "@ebichiri/db/schema";
-import { ProfileEditData, ProfileEditSchema } from "@ebichiri/schema";
+import { ProfileEditSchema } from "@ebichiri/schema";
 
-import { createTRPCRouter, protectedProcedure, TRPCContext } from "../trpc";
+import type { TRPCContext } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { uploadImage } from "../utils";
 
 export const userRouter = createTRPCRouter({
