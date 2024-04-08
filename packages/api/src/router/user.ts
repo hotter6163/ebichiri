@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import type { ProfileEditData } from "@ebichiri/schema";
 import { eq } from "@ebichiri/db";
 import { user as userDbSchema } from "@ebichiri/db/schema";
@@ -15,6 +17,15 @@ export const userRouter = createTRPCRouter({
       .where(eq(userDbSchema.id, ctx.user.id))
       .then((rows) => rows[0] as typeof userDbSchema.$inferSelect),
   ),
+  getOneById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ ctx, input }) =>
+      ctx.db
+        .select()
+        .from(userDbSchema)
+        .where(eq(userDbSchema.id, input.id))
+        .then((rows) => rows[0] as typeof userDbSchema.$inferSelect),
+    ),
   create: protectedProcedure.mutation(({ ctx }) =>
     ctx.db
       .insert(userDbSchema)
