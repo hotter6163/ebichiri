@@ -38,6 +38,7 @@ const PhotoDetailPage: FC = () => {
         <Text className="text-left text-white">
           {dayjs(data.photos.createdAt).format("YYYY/MM/DD HH:mm")}
         </Text>
+        <Text className="text-left text-white">{data.photos.area}</Text>
       </View>
       <View className="w-full flex-1 items-center justify-center">
         <MapView
