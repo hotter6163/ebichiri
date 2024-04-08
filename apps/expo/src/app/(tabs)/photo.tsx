@@ -9,9 +9,7 @@ const SAFE_AREA: NativeSafeAreaViewProps["edges"] = ["top", "right", "left"];
 const PhotoPage: FC = () => {
   const { data, fetchNextPage } =
     api.photo.getMineWithPagination.useInfiniteQuery(
-      {
-        limit: 30,
-      },
+      {},
       {
         getNextPageParam: (lastPage) => lastPage.pagination.cursor,
       },

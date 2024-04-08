@@ -11,9 +11,7 @@ const ProfilePage: FC = () => {
   const { data: user } = api.user.getMine.useQuery();
   const { data, fetchNextPage } =
     api.photo.getMineWithPagination.useInfiniteQuery(
-      {
-        limit: 30,
-      },
+      {},
       {
         getNextPageParam: (lastPage) => lastPage.pagination.cursor,
       },
