@@ -10,39 +10,34 @@ import type { TRPCContext } from "../trpc";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { uploadImage } from "../utils";
 
+const PaginationSchema = z.object({
+  cursor: z.string().nullable().optional(),
+  limit: z.number().nullable().optional(),
+});
+
 export const photoRouter = createTRPCRouter({
   getMineWithPagination: protectedProcedure
-    .input(
-      z.object({
-        cursor: z.string().nullable().optional(),
-        limit: z.number().nullable().optional(),
+    .input(PaginationSchema)
+    .query(async ({ ctx, input }) =>
+      getManyWithPaginationByUserId({
+        ctx,
+        input: { ...input, userId: ctx.user.id },
       }),
+    ),
+  getManyWithPaginationByUserId: protectedProcedure
+    .input(
+      PaginationSchema.merge(
+        z.object({
+          userId: z.string(),
+        }),
+      ),
     )
-    .query(async ({ ctx, input: { cursor, limit: inputLimit } }) => {
-      const where = cursor
-        ? and(
-            lt(photo.createdAt, new Date(cursor)),
-            eq(photo.userId, ctx.user.id),
-          )
-        : eq(photo.userId, ctx.user.id);
-      const limit = inputLimit ?? 3;
-
-      const photos = await ctx.db
-        .select()
-        .from(photo)
-        .where(where)
-        .limit(limit + 1)
-        .orderBy(desc(photo.createdAt));
-
-      const items = photos.slice(0, limit);
-      return {
-        items,
-        pagination: {
-          cursor: items[items.length - 1]?.createdAt.toISOString() ?? null,
-          hasNext: photos.length > limit,
-        },
-      };
-    }),
+    .query(async ({ ctx, input }) =>
+      getManyWithPaginationByUserId({
+        ctx,
+        input,
+      }),
+    ),
   getOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) =>
@@ -111,6 +106,35 @@ const locationToRegion = (location: Location | null) => {
     latitudeDelta: 0.02 / 111,
     longitudeDelta:
       0.02 / (111 * Math.cos(location.latitude * (Math.PI / 180))),
+  };
+};
+
+const getManyWithPaginationByUserId = async ({
+  ctx,
+  input: { cursor, limit: inputLimit, userId },
+}: {
+  ctx: TRPCContext;
+  input: z.infer<typeof PaginationSchema> & { userId: string };
+}) => {
+  const where = cursor
+    ? and(lt(photo.createdAt, new Date(cursor)), eq(photo.userId, userId))
+    : eq(photo.userId, userId);
+  const limit = inputLimit ?? 30;
+
+  const photos = await ctx.db
+    .select()
+    .from(photo)
+    .where(where)
+    .limit(limit + 1)
+    .orderBy(desc(photo.createdAt));
+
+  const items = photos.slice(0, limit);
+  return {
+    items,
+    pagination: {
+      cursor: items[items.length - 1]?.createdAt.toISOString() ?? null,
+      hasNext: photos.length > limit,
+    },
   };
 };
 
