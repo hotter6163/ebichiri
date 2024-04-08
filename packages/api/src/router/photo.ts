@@ -1,10 +1,12 @@
 import { z } from "zod";
 
-import type { NonNullableObject, Region } from "@ebichiri/schema";
+import type { Location, NonNullableObject, Region } from "@ebichiri/schema";
 import { and, desc, eq, gt, lt } from "@ebichiri/db";
 import { photo, user } from "@ebichiri/db/schema";
+import { getReverseGeocoding, PlaceType2 } from "@ebichiri/google";
 import { LocationSchema, RegionSchema } from "@ebichiri/schema";
 
+import type { TRPCContext } from "../trpc";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { uploadImage } from "../utils";
 
@@ -64,27 +66,9 @@ export const photoRouter = createTRPCRouter({
         region: RegionSchema,
       }),
     )
-    .query(async ({ ctx, input: { region } }) => {
-      const bounds = calculateRegionBounds(region);
-      const photos = await ctx.db
-        .select()
-        .from(photo)
-        .where(
-          and(
-            eq(photo.userId, ctx.user.id),
-            and(
-              gt(photo.longitude, bounds.x.min),
-              lt(photo.longitude, bounds.x.max),
-              gt(photo.latitude, bounds.y.min),
-              lt(photo.latitude, bounds.y.max),
-            ),
-          ),
-        );
-      return photos as NonNullableObject<
-        typeof photo.$inferSelect,
-        "longitude" | "latitude"
-      >[];
-    }),
+    .query(async ({ ctx, input: { region } }) =>
+      getPhotosInRegion({ ctx, region }),
+    ),
   create: protectedProcedure
     .input(
       z.object({
@@ -98,16 +82,37 @@ export const photoRouter = createTRPCRouter({
         path: "photos",
         base64: input.base64,
       });
+      console.log("uri", uri);
+      const photos = await getPhotosInRegion({
+        ctx,
+        region: locationToRegion(input.location),
+      });
+      console.log("photos", photos.length);
+      const area = await (photos.length
+        ? getAreaFromPhots(photos)
+        : getAreaFromReverseGeocoding(input.location!));
 
       return ctx.db.insert(photo).values({
         src: uri,
         longitude: input.location?.longitude,
         latitude: input.location?.latitude,
+        area,
         location: input.location,
         userId: ctx.user.id,
       });
     }),
 });
+
+const locationToRegion = (location: Location | null) => {
+  if (!location) return null;
+  return {
+    latitude: location.latitude,
+    longitude: location.longitude,
+    latitudeDelta: 0.02 / 111,
+    longitudeDelta:
+      0.02 / (111 * Math.cos(location.latitude * (Math.PI / 180))),
+  };
+};
 
 const calculateRegionBounds = (region: Region) => ({
   x: {
@@ -119,3 +124,75 @@ const calculateRegionBounds = (region: Region) => ({
     max: region.latitude + region.latitudeDelta / 2,
   },
 });
+
+type PhotoWithLocation = NonNullableObject<
+  typeof photo.$inferSelect,
+  "longitude" | "latitude"
+>;
+
+const getPhotosInRegion = async ({
+  ctx,
+  region,
+  userId,
+}: {
+  ctx: TRPCContext;
+  region: Region | null;
+  userId?: string;
+}): Promise<
+  NonNullableObject<typeof photo.$inferSelect, "longitude" | "latitude">[]
+> => {
+  if (!region) return Promise.resolve([]);
+
+  const bounds = calculateRegionBounds(region);
+  const geographyWhere = and(
+    gt(photo.longitude, bounds.x.min),
+    lt(photo.longitude, bounds.x.max),
+    gt(photo.latitude, bounds.y.min),
+    lt(photo.latitude, bounds.y.max),
+  );
+  const where = userId
+    ? and(geographyWhere, eq(photo.userId, userId))
+    : geographyWhere;
+  const photos = await ctx.db.select().from(photo).where(where);
+  return photos as PhotoWithLocation[];
+};
+
+const getAreaFromReverseGeocoding = async (location: {
+  longitude: number;
+  latitude: number;
+}) => {
+  const { results } = await getReverseGeocoding({
+    location,
+  });
+  const addressComponents = results.flatMap(
+    (result) => result.address_components,
+  );
+  const province =
+    addressComponents.find(
+      (component) =>
+        component.types.includes(PlaceType2.political) &&
+        component.types.includes(PlaceType2.administrative_area_level_1),
+    )?.long_name ?? "";
+  const city =
+    addressComponents.find(
+      (component) =>
+        component.types.includes(PlaceType2.locality) &&
+        component.types.includes(PlaceType2.political),
+    )?.long_name ?? "";
+  return `${province}${city}`;
+};
+
+const getAreaFromPhots = (photos: PhotoWithLocation[]) => {
+  const areasCount = photos.reduce(
+    (acc, photo) => ({
+      ...acc,
+      [photo.area]: (acc[photo.area] ?? 0) + 1,
+    }),
+    {} as Record<string, number>,
+  );
+  const { key } = Object.entries(areasCount).reduce(
+    (acc, [key, value]) => (value > acc.value ? { key, value } : acc),
+    { key: "", value: 0 },
+  );
+  return key;
+};

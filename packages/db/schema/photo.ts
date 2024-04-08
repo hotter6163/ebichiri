@@ -19,6 +19,7 @@ export const photo = pgTable("photos", {
   src: varchar("src").notNull(),
   longitude: doublePrecision("longitude"),
   latitude: doublePrecision("latitude"),
+  area: varchar("area", { length: 256 }).notNull(),
   location: json("location").$type<Location>(),
   userId: uuid("user_id").references(() => user.id, {
     onDelete: "set null",
