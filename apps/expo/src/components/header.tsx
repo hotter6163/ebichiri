@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { BASE_COLOR, PRIMARY_COLOR } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -22,6 +22,7 @@ export const Header: FC = () => {
       className="border-b border-zinc-200"
     >
       <HeaderLogo />
+      <SearchLink />
     </View>
   );
 };
@@ -33,6 +34,12 @@ const HeaderLogo: FC = () => (
   >
     EBICHIRI
   </Text>
+);
+
+const SearchLink: FC = () => (
+  <Link href="/search" className="p-2">
+    <AntDesign name="search1" size={24} color="white" />
+  </Link>
 );
 
 export const BackButton: FC = () => {
