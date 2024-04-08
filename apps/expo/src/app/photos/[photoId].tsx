@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Dimensions, Image, Text, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { PageView } from "@/components/layout";
 import { api } from "@/utils/api";
 import dayjs from "dayjs";
@@ -34,7 +34,9 @@ const PhotoDetailPage: FC = () => {
         style={{ resizeMode: "contain" }}
       />
       <View className="p-4">
-        <Text className="text-left text-white">{data.users.name}</Text>
+        <Link href={`/users/${data.users.id}`}>
+          <Text className="text-left text-white">{data.users.name}</Text>
+        </Link>
         <Text className="text-left text-white">
           {dayjs(data.photos.createdAt).format("YYYY/MM/DD HH:mm")}
         </Text>
