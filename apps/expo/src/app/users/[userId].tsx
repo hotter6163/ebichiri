@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Text, View } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { Avatar } from "@/components/avatar";
 import { PageView } from "@/components/layout";
 import { PhotoList } from "@/components/photo";
@@ -11,7 +11,6 @@ interface SearchParams extends Record<string, string> {
 }
 
 const UserDetailPage: FC = () => {
-  const router = useRouter();
   const { userId } = useLocalSearchParams<SearchParams>();
   const { data: user } = api.user.getOneById.useQuery({ id: userId });
   const { data, fetchNextPage } =
