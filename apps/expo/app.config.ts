@@ -9,11 +9,15 @@ if (
   );
 }
 
+const VERSION = "1.0.0";
+const BUILD_NUMBER = "2";
+const APPLE_STORE_URL = "https://apps.apple.com/jp/app/id6484062256";
+
 const defineConfig = (): ExpoConfig => ({
   name: "えびちり",
   slug: "ebichiri",
   scheme: "ebichiri",
-  version: "2.0.0",
+  version: VERSION,
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "dark",
@@ -28,6 +32,8 @@ const defineConfig = (): ExpoConfig => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     bundleIdentifier: "com.ebichiri",
+    buildNumber: BUILD_NUMBER,
+    appStoreUrl: APPLE_STORE_URL,
     supportsTablet: true,
     usesAppleSignIn: true,
     config: {
