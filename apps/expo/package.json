@@ -9,6 +9,7 @@
     "dev:android": "expo start --android",
     "dev:ios": "expo start --ios",
     "build:simulator": "dotenv -- eas build --profile=development --platform=ios --no-wait",
+    "build:production": "dotenv -- eas build --profile=production --platform=ios --no-wait --auto-submit",
     "lint": "eslint .",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "typecheck": "tsc --noEmit",

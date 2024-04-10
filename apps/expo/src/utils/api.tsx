@@ -1,9 +1,9 @@
+import { useState } from "react";
+import Constants from "expo-constants";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
-import Constants from "expo-constants";
-import { useState } from "react";
 import superjson from "superjson";
 
 import type { AppRouter } from "@ebichiri/api";
@@ -19,14 +19,8 @@ export { type RouterInputs, type RouterOutputs } from "@ebichiri/api";
  * setting the baseUrl to your production API URL.
  */
 const getBaseUrl = () => {
-  /**
-   * Gets the IP address of your host-machine. If it cannot automatically find it,
-   * you'll have to manually set it. NOTE: Port 3000 should work for most but confirm
-   * you don't have anything else running on it, or you'd have to change it.
-   *
-   * **NOTE**: This is only for development. In production, you'll want to set the
-   * baseUrl to your production API URL.
-   */
+  if (process.env.EXPO_PUBLIC_TRPC_BASE_URL)
+    return process.env.EXPO_PUBLIC_TRPC_BASE_URL;
 
   const debuggerHost = Constants.expoConfig?.hostUri;
   const localhost = debuggerHost?.split(":")[0];
