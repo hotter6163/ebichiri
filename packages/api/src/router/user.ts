@@ -1,8 +1,12 @@
 import { z } from "zod";
 
 import type { ProfileEditData } from "@ebichiri/schema";
-import { and, eq, like, not, or } from "@ebichiri/db";
-import { DEFAULT_USER_NAME, user as userDbSchema } from "@ebichiri/db/schema";
+import { and, countDistinct, eq, like, not, or, SQL } from "@ebichiri/db";
+import {
+  DEFAULT_USER_NAME,
+  follow,
+  user as userDbSchema,
+} from "@ebichiri/db/schema";
 import { ProfileEditSchema } from "@ebichiri/schema";
 
 import type { TRPCContext } from "../trpc";
@@ -11,23 +15,39 @@ import { uploadImage } from "../utils";
 
 export const userRouter = createTRPCRouter({
   getMine: protectedProcedure.query(({ ctx }) =>
-    ctx.db
-      .select()
-      .from(userDbSchema)
-      .where(eq(userDbSchema.id, ctx.user.id))
-      .then((rows) => rows[0] as typeof userDbSchema.$inferSelect),
+    getUsersWithFollowsCount({
+      ctx,
+      where: eq(userDbSchema.id, ctx.user.id),
+    }).then((rows) => {
+      const result = rows[0];
+      if (!result) return null;
+
+      return {
+        ...result.users,
+        followersCount: result.followers?.count ?? 0,
+        followingsCount: result.followings?.count ?? 0,
+      };
+    }),
   ),
   getOneById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) =>
-      ctx.db
-        .select()
-        .from(userDbSchema)
-        .where(eq(userDbSchema.id, input.id))
-        .then((rows) => ({
-          user: rows[0] as typeof userDbSchema.$inferSelect,
+      getUsersWithFollowsCount({
+        ctx,
+        where: eq(userDbSchema.id, ctx.user.id),
+      }).then((rows) => {
+        const result = rows[0];
+        if (!result) return null;
+
+        return {
+          user: {
+            ...result.users,
+            followersCount: result.followers?.count ?? 0,
+            followingsCount: result.followings?.count ?? 0,
+          },
           isMe: ctx.user.id === input.id,
-        })),
+        };
+      }),
     ),
   search: protectedProcedure
     .input(z.object({ searchText: z.string() }))
@@ -83,3 +103,44 @@ const getNewAvatar = (ctx: TRPCContext, input: ProfileEditData) =>
           return input.avatar;
         })
     : Promise.resolve(input.avatar);
+
+const getUsersWithFollowsCount = ({
+  ctx,
+  where,
+}: {
+  ctx: TRPCContext;
+  where?: SQL;
+}) => {
+  const followers = withFollowers(ctx);
+  const followings = withFollowings(ctx);
+
+  return ctx.db
+    .with(followers, followings)
+    .select()
+    .from(userDbSchema)
+    .leftJoin(followers, eq(followers.followingId, userDbSchema.id))
+    .leftJoin(followings, eq(followings.userId, userDbSchema.id))
+    .where(where);
+};
+
+const withFollowers = (ctx: TRPCContext) =>
+  ctx.db.$with("followers").as(
+    ctx.db
+      .select({
+        followingId: follow.followingId,
+        count: countDistinct(follow.userId).as("followersCount"),
+      })
+      .from(follow)
+      .groupBy(follow.followingId),
+  );
+
+const withFollowings = (ctx: TRPCContext) =>
+  ctx.db.$with("followings").as(
+    ctx.db
+      .select({
+        userId: follow.userId,
+        count: countDistinct(follow.followingId).as("followingsCount"),
+      })
+      .from(follow)
+      .groupBy(follow.userId),
+  );
