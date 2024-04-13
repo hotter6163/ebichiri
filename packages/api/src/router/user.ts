@@ -1,7 +1,8 @@
 import { z } from "zod";
 
+import type { SQL } from "@ebichiri/db";
 import type { ProfileEditData } from "@ebichiri/schema";
-import { and, countDistinct, eq, like, not, or, SQL } from "@ebichiri/db";
+import { and, countDistinct, eq, like, not, or } from "@ebichiri/db";
 import {
   DEFAULT_USER_NAME,
   follow,
