@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FlatList, TextInput, View } from "react-native";
 import { Link } from "expo-router";
 import { Avatar } from "@/components/avatar";
@@ -10,14 +10,10 @@ import { api } from "@/utils/api";
 import { AntDesign } from "@expo/vector-icons";
 
 const SearchPage: FC = () => {
-  const [searchText, setSearchText] = useState("hot");
+  const [searchText, setSearchText] = useState("");
   const { data } = api.user.search.useQuery({
     searchText,
   });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <PageView safeArea={["bottom"]} style={{ justifyContent: "flex-start" }}>
@@ -31,7 +27,7 @@ const SearchPage: FC = () => {
         />
       </View>
       <FlatList
-        data={data}
+        data={data ?? []}
         className="w-full px-4"
         renderItem={({ item }) => (
           <Link href={`/users/${item.id}`}>

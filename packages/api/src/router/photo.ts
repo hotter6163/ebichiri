@@ -62,7 +62,7 @@ export const photoRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input: { region } }) =>
-      getPhotosInRegion({ ctx, region }),
+      getPhotosInRegion({ ctx, region, userId: ctx.user.id }),
     ),
   create: protectedProcedure
     .input(
