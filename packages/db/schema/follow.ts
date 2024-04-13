@@ -6,12 +6,16 @@ import { user } from "./user";
 export const follow = pgTable(
   "follows",
   {
-    userId: uuid("user_id").references(() => user.id, {
-      onDelete: "cascade",
-    }),
-    followingId: uuid("following_id").references(() => user.id, {
-      onDelete: "cascade",
-    }),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, {
+        onDelete: "cascade",
+      }),
+    followingId: uuid("following_id")
+      .notNull()
+      .references(() => user.id, {
+        onDelete: "cascade",
+      }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
