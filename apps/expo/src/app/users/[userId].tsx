@@ -5,6 +5,7 @@ import { PageView } from "@/components/layout";
 import { PhotoList } from "@/components/photo";
 import { UserProfile } from "@/components/user";
 import { api } from "@/utils/api";
+import { useAsyncCallback } from "react-async-hook";
 
 interface SearchParams extends Record<string, string> {
   userId: string;
@@ -30,17 +31,20 @@ const UserDetailPage: FC = () => {
   const { mutateAsync: follow } = api.follow.follow.useMutation();
   const { mutateAsync: unfollow } = api.follow.unfollow.useMutation();
 
+  const { execute, loading } = useAsyncCallback(async () => {
+    if (isFollowing) await unfollow({ userId });
+    else await follow({ userId });
+    await Promise.all([refetchIsFollowing(), refetchUserData()]);
+  });
+
   return (
     <PageView style={{ gap: 16 }}>
       <UserProfile user={userData?.user} />
       <View className="w-full items-center">
         <Pressable
           className="w-2/3 items-center justify-center rounded-xl bg-white py-3"
-          onPress={async () => {
-            if (isFollowing) await unfollow({ userId });
-            else await follow({ userId });
-            await Promise.all([refetchIsFollowing(), refetchUserData()]);
-          }}
+          onPress={execute}
+          disabled={loading}
         >
           <Text className="text-lg font-bold text-black">
             {isFollowing ? "フォロー解除" : "フォロー"}
