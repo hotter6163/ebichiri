@@ -35,7 +35,7 @@ export const userRouter = createTRPCRouter({
     .query(({ ctx, input }) =>
       getUsersWithFollowsCount({
         ctx,
-        where: eq(userDbSchema.id, ctx.user.id),
+        where: eq(userDbSchema.id, input.id),
       }).then((rows) => {
         const result = rows[0];
         if (!result) return null;
@@ -119,7 +119,7 @@ const getUsersWithFollowsCount = ({
     .with(followers, followings)
     .select()
     .from(userDbSchema)
-    .leftJoin(followers, eq(followers.followingId, userDbSchema.id))
+    .leftJoin(followers, eq(followers.userId, userDbSchema.id))
     .leftJoin(followings, eq(followings.userId, userDbSchema.id))
     .where(where);
 };
@@ -128,7 +128,7 @@ const withFollowers = (ctx: TRPCContext) =>
   ctx.db.$with("followers").as(
     ctx.db
       .select({
-        followingId: follow.followingId,
+        userId: follow.followingId,
         count: countDistinct(follow.userId).as("followersCount"),
       })
       .from(follow)
