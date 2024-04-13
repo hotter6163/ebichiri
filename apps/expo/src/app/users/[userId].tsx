@@ -30,11 +30,16 @@ const UserDetailPage: FC = () => {
     });
   const { mutateAsync: follow } = api.follow.follow.useMutation();
   const { mutateAsync: unfollow } = api.follow.unfollow.useMutation();
+  const { user } = api.useUtils();
 
   const { execute, loading } = useAsyncCallback(async () => {
     if (isFollowing) await unfollow({ userId });
     else await follow({ userId });
-    await Promise.all([refetchIsFollowing(), refetchUserData()]);
+    await Promise.all([
+      refetchIsFollowing(),
+      refetchUserData(),
+      user.getMine.refetch(),
+    ]);
   });
 
   return (
