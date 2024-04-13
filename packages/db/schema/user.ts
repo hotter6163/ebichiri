@@ -1,6 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
+import { follow } from "./follow";
 import { photo } from "./photo";
 
 export const DEFAULT_USER_NAME = "新規ユーザー";
@@ -23,4 +24,6 @@ export const user = pgTable("users", {
 
 export const userRelations = relations(user, ({ many }) => ({
   photos: many(photo),
+  following: many(follow),
+  followers: many(follow),
 }));
