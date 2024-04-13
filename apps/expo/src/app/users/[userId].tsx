@@ -11,7 +11,7 @@ interface SearchParams extends Record<string, string> {
 
 const UserDetailPage: FC = () => {
   const { userId } = useLocalSearchParams<SearchParams>();
-  const { data: user } = api.user.getOneById.useQuery({ id: userId });
+  const { data: userData } = api.user.getOneById.useQuery({ id: userId });
   const { data, fetchNextPage } =
     api.photo.getManyWithPaginationByUserId.useInfiniteQuery(
       {
@@ -24,7 +24,7 @@ const UserDetailPage: FC = () => {
 
   return (
     <PageView style={{ gap: 16 }}>
-      <UserProfile user={user} />
+      <UserProfile user={userData?.user} />
       {/* <View className="w-full items-center">
         <Pressable
           className="items-center justify-center rounded-xl bg-white px-12 py-3"

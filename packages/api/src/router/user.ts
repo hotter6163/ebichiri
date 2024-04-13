@@ -24,7 +24,10 @@ export const userRouter = createTRPCRouter({
         .select()
         .from(userDbSchema)
         .where(eq(userDbSchema.id, input.id))
-        .then((rows) => rows[0] as typeof userDbSchema.$inferSelect),
+        .then((rows) => ({
+          user: rows[0] as typeof userDbSchema.$inferSelect,
+          isMe: ctx.user.id === input.id,
+        })),
     ),
   search: protectedProcedure
     .input(z.object({ searchText: z.string() }))

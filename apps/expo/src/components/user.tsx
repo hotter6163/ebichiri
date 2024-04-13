@@ -5,7 +5,7 @@ import { Text, View } from "react-native";
 import { Avatar } from "./avatar";
 
 interface Props {
-  user?: RouterOutputs["user"]["getOneById"];
+  user?: RouterOutputs["user"]["getOneById"]["user"];
 }
 
 export const UserProfile: FC<Props> = ({ user }) => (
