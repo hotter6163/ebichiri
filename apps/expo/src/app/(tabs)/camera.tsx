@@ -20,6 +20,7 @@ import { useCameraPermission } from "@/libs/native/camera";
 import { useLocation } from "@/libs/native/location";
 import { api } from "@/utils/api";
 import Slider from "@react-native-community/slider";
+import { useAsyncCallback } from "react-async-hook";
 
 const SAFE_AREA: NativeSafeAreaViewProps["edges"] = ["top", "right", "left"];
 
@@ -129,7 +130,7 @@ const CapturedView: FC<{ data: CaptureData; clear: () => void }> = ({
   const { mutateAsync } = api.photo.create.useMutation();
   const { photo } = api.useUtils();
 
-  const onSave = async () => {
+  const { execute, loading } = useAsyncCallback(async () => {
     if (permission?.status === PermissionStatus.GRANTED)
       await saveToLibraryAsync(uri);
 
@@ -143,7 +144,7 @@ const CapturedView: FC<{ data: CaptureData; clear: () => void }> = ({
       Alert.alert("画像の保存に失敗しました");
     }
     clear();
-  };
+  });
 
   return (
     <>
@@ -153,7 +154,7 @@ const CapturedView: FC<{ data: CaptureData; clear: () => void }> = ({
         style={{ resizeMode: "contain" }}
       />
       <View className="w-full flex-row-reverse items-center justify-between px-4 pb-8">
-        <Pressable className="px-6 py-3" onPress={onSave}>
+        <Pressable className="px-6 py-3" onPress={execute} disabled={loading}>
           <Text className="text-center text-2xl text-white">保存</Text>
         </Pressable>
         <Pressable className="px-6 py-3" onPress={clear}>

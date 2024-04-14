@@ -8,6 +8,7 @@ import { PageView } from "@/components/layout";
 import { PRIMARY_COLOR } from "@/constants/colors";
 import { api } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAsyncCallback } from "react-async-hook";
 import { Controller, useForm } from "react-hook-form";
 
 import type { ProfileEditData } from "@ebichiri/schema";
@@ -29,6 +30,15 @@ const ProfileEditPage: FC = () => {
   const { mutateAsync } = api.user.update.useMutation();
   const { user } = api.useUtils();
 
+  const { execute, loading } = useAsyncCallback(
+    form.handleSubmit(async (values: ProfileEditData) => {
+      await mutateAsync(values);
+      await user.getMine.refetch();
+      if (router.canGoBack()) router.back();
+      else router.push("/(tabs)/profile");
+    }),
+  );
+
   const pickAvatar = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -42,13 +52,6 @@ const ProfileEditPage: FC = () => {
 
     form.setValue("avatar", asset.uri);
     form.setValue("avatarBase64", asset.base64 ?? undefined);
-  };
-
-  const onSubmit = async (values: ProfileEditData) => {
-    await mutateAsync(values);
-    await user.getMine.refetch();
-    if (router.canGoBack()) router.back();
-    else router.push("/(tabs)/profile");
   };
 
   return (
@@ -110,7 +113,8 @@ const ProfileEditPage: FC = () => {
           style={{
             backgroundColor: PRIMARY_COLOR,
           }}
-          onPress={form.handleSubmit(onSubmit)}
+          onPress={execute}
+          disabled={loading}
         >
           <Text className="text-center text-lg font-bold text-white">保存</Text>
         </Pressable>
