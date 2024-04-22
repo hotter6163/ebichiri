@@ -3,11 +3,14 @@ import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 import { follow } from "./follow";
 import { photo } from "./photo";
+import { session } from "./session";
 
 export const DEFAULT_USER_NAME = "新規ユーザー";
 
 export const user = pgTable("users", {
-  id: uuid("id").primaryKey(),
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
   slug: varchar("slug", { length: 256 })
     .unique()
     .notNull()
@@ -22,8 +25,9 @@ export const user = pgTable("users", {
     .notNull(),
 });
 
-export const userRelations = relations(user, ({ many }) => ({
-  photos: many(photo),
+export const userRelations = relations(user, ({ one, many }) => ({
   following: many(follow),
   followers: many(follow),
+  photos: many(photo),
+  session: one(session, { fields: [user.id], references: [session.userId] }),
 }));
