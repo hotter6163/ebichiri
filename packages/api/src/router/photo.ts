@@ -77,12 +77,10 @@ export const photoRouter = createTRPCRouter({
         path: "photos",
         base64: input.base64,
       });
-      console.log("uri", uri);
       const photos = await getPhotosInRegion({
         ctx,
         region: locationToRegion(input.location),
       });
-      console.log("photos", photos.length);
       const area = await (photos.length
         ? getAreaFromPhots(photos)
         : getAreaFromReverseGeocoding(input.location!));
