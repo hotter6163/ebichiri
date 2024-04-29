@@ -4,10 +4,8 @@ import { Text, View } from "react-native";
 
 import { Avatar } from "./avatar";
 
-type User = NonNullable<RouterOutputs["user"]["getOneById"]>["user"];
-
 interface Props {
-  user?: User | null;
+  user?: NonNullable<RouterOutputs["user"]["getOneById"]>["user"] | null;
 }
 
 export const UserProfile: FC<Props> = ({ user }) => (
@@ -35,9 +33,7 @@ export const UserProfile: FC<Props> = ({ user }) => (
   </View>
 );
 
-export const UserNameAndSlug: FC<{
-  user?: Pick<User, "name" | "slug"> | null;
-}> = ({ user }) => (
+export const UserNameAndSlug: FC<Props> = ({ user }) => (
   <>
     <View className="h-7">
       <Text className="text-xl font-bold text-white" adjustsFontSizeToFit>
