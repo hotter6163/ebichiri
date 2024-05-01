@@ -10,7 +10,7 @@ import "../styles.css";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BackButton } from "@/components/header";
 import { BASE_COLOR } from "@/constants/colors";
-import { AnonymousSignIn } from "@/libs/auth/anonymous";
+import { SessionHandler } from "@/libs/auth/session";
 import {
   LocationProvider,
   useLocationPermission,
@@ -45,7 +45,7 @@ const RootLayout: FC = () => {
             <Stack.Screen name="users/[userId]" />
           </Stack>
           <StatusBar style="light" />
-          <AnonymousSignIn />
+          <SessionHandler />
         </LocationProvider>
       </TRPCProvider>
     </SessionContextProvider>
