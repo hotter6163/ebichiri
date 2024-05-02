@@ -6,7 +6,7 @@ import { Avatar } from "@/components/avatar";
 import { Divider } from "@/components/divider";
 import { PageView } from "@/components/layout";
 import { PRIMARY_COLOR } from "@/constants/colors";
-import { api } from "@/utils/api";
+import { api } from "@/libs/trpc/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAsyncCallback } from "react-async-hook";
 import { Controller, useForm } from "react-hook-form";

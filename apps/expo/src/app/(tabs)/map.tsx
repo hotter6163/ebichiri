@@ -7,7 +7,7 @@ import { PermissionStatus } from "expo-modules-core";
 import { useRouter } from "expo-router";
 import { PageView } from "@/components/layout";
 import { useLocation } from "@/libs/native/location";
-import { api } from "@/utils/api";
+import { api } from "@/libs/trpc/api";
 
 const LONGITUDE_DELTA = 0.0421;
 

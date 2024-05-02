@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useEffect } from "react";
-import { api } from "@/utils/api";
+import { api } from "@/libs/trpc/api";
 import { Store } from "@/utils/store";
 
 export const sessionStore = new Store<string>("auth.token", {

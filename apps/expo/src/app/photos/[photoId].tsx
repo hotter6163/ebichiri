@@ -3,7 +3,7 @@ import { Dimensions, Image, Text, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Link, useLocalSearchParams } from "expo-router";
 import { PageView } from "@/components/layout";
-import { api } from "@/utils/api";
+import { api } from "@/libs/trpc/api";
 import dayjs from "dayjs";
 
 interface SearchParams extends Record<string, string> {

@@ -1,4 +1,4 @@
-import type { RouterOutputs } from "@/utils/api";
+import type { RouterOutputs } from "@/libs/trpc/api";
 import type { FC } from "react";
 import { Text, View } from "react-native";
 

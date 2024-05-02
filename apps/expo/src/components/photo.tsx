@@ -1,4 +1,4 @@
-import type { api } from "@/utils/api";
+import type { api } from "@/libs/trpc/api";
 import type { FC } from "react";
 import { Dimensions, FlatList, Image, Pressable } from "react-native";
 import { useRouter } from "expo-router";

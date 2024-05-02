@@ -4,7 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 import { PageView } from "@/components/layout";
 import { PhotoList } from "@/components/photo";
 import { UserProfile } from "@/components/user";
-import { api } from "@/utils/api";
+import { api } from "@/libs/trpc/api";
 import { useAsyncCallback } from "react-async-hook";
 
 interface SearchParams extends Record<string, string> {

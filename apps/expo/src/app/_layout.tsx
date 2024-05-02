@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { TRPCProvider } from "@/utils/api";
+import { TRPCProvider } from "@/libs/trpc/api";
 import { supabase } from "@/utils/supabase";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 
