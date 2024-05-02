@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Constants from "expo-constants";
-import { sessionStore } from "@/libs/auth/session";
+import { SessionStore } from "@/libs/auth/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
@@ -50,7 +50,7 @@ export const TRPCProvider = (props: { children: React.ReactNode }) => {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
 
-            const token = await sessionStore.get();
+            const token = await SessionStore.get();
             console.log("token", token);
             if (token) headers.set("authorization", token);
 

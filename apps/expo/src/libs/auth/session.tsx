@@ -1,16 +1,12 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import { api } from "@/libs/trpc/api";
-import { Store } from "@/utils/store";
 
-export const sessionStore = new Store<string>("auth.token", {
-  from: (value: string) => value,
-  to: (value: string) => value,
-});
+import { SessionStore } from "./store";
 
 export const SessionHandler: FC = () => {
   const { mutateAsync } = api.session.create.useMutation({
-    onSuccess: (session) => sessionStore.set(session.accessToken),
+    onSuccess: (session) => SessionStore.set(session.accessToken),
   });
 
   useEffect(() => {
