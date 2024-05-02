@@ -23,12 +23,12 @@
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
-    "@ebichiri/prettier-config": "workspace:^0.1.0",
-    "@turbo/gen": "^1.11.1",
-    "prettier": "^3.1.0",
-    "supabase": "^1.153.4",
-    "turbo": "^1.11.1",
-    "typescript": "^5.3.3"
+    "@ebichiri/prettier-config": "workspace:^",
+    "@turbo/gen": "^1.13.3",
+    "prettier": "^3.2.5",
+    "supabase": "^1.164.1",
+    "turbo": "^1.13.3",
+    "typescript": "^5.4.5"
   },
   "prettier": "@ebichiri/prettier-config"
 }

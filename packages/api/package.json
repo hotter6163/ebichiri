@@ -15,7 +15,7 @@
     "@ebichiri/db": "workspace:^0.1.0",
     "@ebichiri/google": "workspace:^0.1.0",
     "@ebichiri/schema": "workspace:^0.1.0",
-    "@supabase/supabase-js": "^2.42.0",
+    "@supabase/supabase-js": "^2.43.0",
     "@trpc/client": "next",
     "@trpc/server": "next",
     "nanoid": "^5.0.4",
@@ -26,9 +26,9 @@
     "@ebichiri/eslint-config": "workspace:^0.2.0",
     "@ebichiri/prettier-config": "workspace:^0.1.0",
     "@ebichiri/tsconfig": "workspace:^0.1.0",
-    "eslint": "^8.53.0",
-    "prettier": "^3.1.0",
-    "typescript": "^5.3.3"
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
   },
   "eslintConfig": {
     "root": true,
