@@ -10,7 +10,7 @@ export const SessionHandler: FC = () => {
   });
 
   useEffect(() => {
-    void sessionStore.get().then(async (token) => {
+    void SessionStore.get().then(async (token) => {
       if (!token) await mutateAsync();
     });
   }, [mutateAsync]);
