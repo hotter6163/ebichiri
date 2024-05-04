@@ -18,6 +18,7 @@ const ProfileEditPage: FC = () => {
   const router = useRouter();
   const { data } = api.user.getMine.useQuery();
   const form = useForm<ProfileEditData>({
+    // @ts-expect-error @hookform/resolvers/zod is not supporting latest zod.
     resolver: zodResolver(ProfileEditSchema),
     defaultValues: {
       name: data?.name,
