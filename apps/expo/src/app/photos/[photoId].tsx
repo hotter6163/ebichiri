@@ -6,14 +6,10 @@ import { PageView } from "@/components/layout";
 import { api } from "@/libs/trpc/api";
 import dayjs from "dayjs";
 
-interface SearchParams extends Record<string, string> {
-  photoId: string;
-}
-
 const LONGITUDE_DELTA = 0.0421;
 
 const PhotoDetailPage: FC = () => {
-  const { photoId } = useLocalSearchParams<SearchParams>();
+  const { photoId } = useLocalSearchParams<"/photos/[photoId]">();
   const { data } = api.photo.getOne.useQuery({ id: photoId });
 
   if (!data) {
