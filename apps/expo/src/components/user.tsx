@@ -33,7 +33,12 @@ export const UserProfile: FC<Props> = ({ user }) => (
   </View>
 );
 
-export const UserNameAndSlug: FC<Props> = ({ user }) => (
+export const UserNameAndSlug: FC<{
+  user?: Pick<
+    NonNullable<RouterOutputs["user"]["getOneById"]>["user"],
+    "name" | "slug"
+  > | null;
+}> = ({ user }) => (
   <>
     <View className="h-7">
       <Text className="text-xl font-bold text-white" adjustsFontSizeToFit>
