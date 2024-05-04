@@ -42,16 +42,15 @@ export const TRPCProvider = (props: { children: React.ReactNode }) => {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     api.createClient({
-      transformer: superjson,
       links: [
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
+          transformer: superjson,
           async headers() {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
 
             const token = await SessionStore.get();
-            console.log("token", token);
             if (token) headers.set("authorization", token);
 
             return Object.fromEntries(headers);
