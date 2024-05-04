@@ -1,5 +1,5 @@
 {
-  "name": "@ebichiri/api",
+  "name": "@ebichiri/storage",
   "version": "0.1.0",
   "private": true,
   "main": "./index.ts",
@@ -12,16 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ebichiri/db": "workspace:^0.1.0",
-    "@ebichiri/google": "workspace:^0.1.0",
-    "@ebichiri/schema": "workspace:^0.1.0",
-    "@ebichiri/storage": "workspace:^0.1.0",
-    "@supabase/supabase-js": "^2.43.0",
-    "@trpc/client": "next",
-    "@trpc/server": "next",
-    "nanoid": "^5.0.4",
-    "superjson": "2.2.1",
-    "zod": "^3.22.2"
+    "@supabase/storage-js": "^2.5.5"
   },
   "devDependencies": {
     "@ebichiri/eslint-config": "workspace:^0.2.0",
