@@ -1,17 +1,9 @@
 {
-  "name": "@ebichiri/{{ name }}",
-  "private": true,
+  "name": "@ebichiri/storage",
   "version": "0.1.0",
-  "exports": {
-    ".": "./index.ts"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "src/*"
-      ]
-    }
-  },
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
@@ -19,14 +11,19 @@
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@supabase/storage-js": "^2.5.5"
+  },
   "devDependencies": {
     "@ebichiri/eslint-config": "workspace:^0.2.0",
     "@ebichiri/prettier-config": "workspace:^0.1.0",
     "@ebichiri/tsconfig": "workspace:^0.1.0",
     "eslint": "^8.57.0",
-    "typescript": "^5.2.2"
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
   },
   "eslintConfig": {
+    "root": true,
     "extends": [
       "@ebichiri/eslint-config/base"
     ]

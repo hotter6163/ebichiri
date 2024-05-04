@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Constants from "expo-constants";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { SessionStore } from "@/libs/auth/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
@@ -39,21 +39,18 @@ const getBaseUrl = () => {
  * Use only in _app.tsx
  */
 export const TRPCProvider = (props: { children: React.ReactNode }) => {
-  const supabase = useSupabaseClient();
-
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     api.createClient({
-      transformer: superjson,
       links: [
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
+          transformer: superjson,
           async headers() {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
 
-            const { data } = await supabase.auth.getSession();
-            const token = data.session?.access_token;
+            const token = await SessionStore.get();
             if (token) headers.set("authorization", token);
 
             return Object.fromEntries(headers);

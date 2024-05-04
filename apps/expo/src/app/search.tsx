@@ -6,7 +6,7 @@ import { Avatar } from "@/components/avatar";
 import { Divider } from "@/components/divider";
 import { PageView } from "@/components/layout";
 import { UserNameAndSlug } from "@/components/user";
-import { api } from "@/utils/api";
+import { api } from "@/libs/trpc/api";
 import { AntDesign } from "@expo/vector-icons";
 
 const SearchPage: FC = () => {

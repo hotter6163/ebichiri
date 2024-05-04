@@ -4,15 +4,11 @@ import { useLocalSearchParams } from "expo-router";
 import { PageView } from "@/components/layout";
 import { PhotoList } from "@/components/photo";
 import { UserProfile } from "@/components/user";
-import { api } from "@/utils/api";
+import { api } from "@/libs/trpc/api";
 import { useAsyncCallback } from "react-async-hook";
 
-interface SearchParams extends Record<string, string> {
-  userId: string;
-}
-
 const UserDetailPage: FC = () => {
-  const { userId } = useLocalSearchParams<SearchParams>();
+  const { userId } = useLocalSearchParams<"/users/[userId]">();
   const { data: userData, refetch: refetchUserData } =
     api.user.getOneById.useQuery({ id: userId });
   const { data, fetchNextPage } =

@@ -2,7 +2,7 @@ import type { FC } from "react";
 import type { NativeSafeAreaViewProps } from "react-native-safe-area-context";
 import { PageView } from "@/components/layout";
 import { PhotoList } from "@/components/photo";
-import { api } from "@/utils/api";
+import { api } from "@/libs/trpc/api";
 
 const SAFE_AREA: NativeSafeAreaViewProps["edges"] = ["top", "right", "left"];
 

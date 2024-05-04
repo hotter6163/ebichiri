@@ -18,7 +18,7 @@ import { PageView } from "@/components/layout";
 import { PRIMARY_COLOR } from "@/constants/colors";
 import { useCameraPermission } from "@/libs/native/camera";
 import { useLocation } from "@/libs/native/location";
-import { api } from "@/utils/api";
+import { api } from "@/libs/trpc/api";
 import Slider from "@react-native-community/slider";
 import { useAsyncCallback } from "react-async-hook";
 

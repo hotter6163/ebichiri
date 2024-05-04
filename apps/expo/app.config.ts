@@ -60,6 +60,7 @@ const defineConfig = (): ExpoConfig => ({
     "./expo-plugins/with-modify-gradle.js",
     "expo-apple-authentication",
     "expo-secure-store",
+    "expo-router",
     [
       "expo-camera",
       {

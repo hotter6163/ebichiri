@@ -5,7 +5,7 @@ interface Converter<T> {
   to: (value: T) => string;
 }
 
-export class Storage<T> {
+export class Store<T> {
   constructor(
     private key: string,
     private convertor: Converter<T>,
@@ -19,5 +19,9 @@ export class Storage<T> {
   async set(value: T): Promise<void> {
     const stringValue = this.convertor.to(value);
     await SecureStore.setItemAsync(this.key, stringValue);
+  }
+
+  async remove(): Promise<void> {
+    await SecureStore.deleteItemAsync(this.key);
   }
 }
