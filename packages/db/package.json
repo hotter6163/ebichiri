@@ -14,15 +14,15 @@
   },
   "dependencies": {
     "@ebichiri/schema": "workspace:^0.1.0",
-    "@vercel/postgres": "^0.5.1",
-    "drizzle-orm": "^0.29.1"
+    "drizzle-orm": "^0.30.9",
+    "postgres": "^3.4.4"
   },
   "devDependencies": {
     "@ebichiri/eslint-config": "workspace:^0.2.0",
     "@ebichiri/prettier-config": "workspace:^0.1.0",
     "@ebichiri/tsconfig": "workspace:^0.1.0",
     "dotenv-cli": "^7.4.1",
-    "drizzle-kit": "beta",
+    "drizzle-kit": "^0.20.17",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5"
